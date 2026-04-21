@@ -21,7 +21,6 @@ aplicar los conocimientos de los lenguajes de programacion **HTML,javascript y C
 - HTML5
 - CSS
 - javascript
-- botstrap (si hace falta para los botones)
 - github
 - Git
 - Visual Studio
