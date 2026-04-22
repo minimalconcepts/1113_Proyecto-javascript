@@ -88,5 +88,14 @@ const catalogoAutos = [
     precio: 3200000,
     color: "Naranja",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Koenigsegg",
+    modelo: "Agera RS",
+    año: 2019,
+    kilometraje: 3000,
+    precio: 2500000,
+    color: "Blanco",
+    combustible: "Gasolina"
   }
 ];
