@@ -7,5 +7,14 @@ const catalogoAutos = [
     precio: 600000,
     color: "Verde",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Lamborghini",
+    modelo: "Huracán EVO",
+    año: 2020,
+    kilometraje: 8000,
+    precio: 320000,
+    color: "Amarillo",
+    combustible: "Gasolina"
   }
 ];
