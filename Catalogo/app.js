@@ -34,5 +34,14 @@ const catalogoAutos = [
     precio: 350000,
     color: "Rojo",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Ferrari",
+    modelo: "LaFerrari",
+    año: 2018,
+    kilometraje: 2000,
+    precio: 1500000,
+    color: "Negro",
+    combustible: "Híbrido"
   }
 ];
