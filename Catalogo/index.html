@@ -6,9 +6,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <h1>Vehicle Catalog</h1>
 
-  <div id="filters"></div>
+  <div id="filters">
+    <select id="brandFilter">
+      <option value="">All Brands</option>
+      <option value="Toyota">Toyota</option>
+      <option value="Ford">Ford</option>
+    </select>
+
+    <select id="typeFilter">
+      <option value="">All Types</option>
+      <option value="Sedan">Sedan</option>
+      <option value="SUV">SUV</option>
+    </select>
+
+    <button onclick="applyFilters()">Filter</button>
+  </div>
+
   <div id="vehicle-list"></div>
 
   <script src="app.js"></script>

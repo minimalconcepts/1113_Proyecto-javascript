@@ -42,4 +42,16 @@ function renderVehicles(list) {
   });
 }
 
+function applyFilters() {
+  const brand = document.getElementById("brandFilter").value;
+  const type = document.getElementById("typeFilter").value;
+
+  const filtered = vehicles.filter(v =>
+    (!brand || v.brand === brand) &&
+    (!type || v.type === type)
+  );
+
+  renderVehicles(filtered);
+}
+
 renderVehicles(vehicles);
