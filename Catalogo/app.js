@@ -61,5 +61,14 @@ const catalogoAutos = [
     precio: 1800000,
     color: "Negro",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Pagani",
+    modelo: "Huayra",
+    año: 2020,
+    kilometraje: 4000,
+    precio: 2800000,
+    color: "Blanco",
+    combustible: "Gasolina"
   }
 ];
