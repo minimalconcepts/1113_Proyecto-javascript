@@ -70,5 +70,14 @@ const catalogoAutos = [
     precio: 2800000,
     color: "Blanco",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Pagani",
+    modelo: "Zonda R",
+    año: 2016,
+    kilometraje: 6000,
+    precio: 2200000,
+    color: "Gris",
+    combustible: "Gasolina"
   }
 ];
