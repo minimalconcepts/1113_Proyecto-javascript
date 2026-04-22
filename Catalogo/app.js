@@ -97,5 +97,14 @@ const catalogoAutos = [
     precio: 2500000,
     color: "Blanco",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Lamborghini",
+    modelo: "Sian",
+    año: 2021,
+    kilometraje: 2000,
+    precio: 3500000,
+    color: "Verde",
+    combustible: "Híbrido"
   }
 ];
