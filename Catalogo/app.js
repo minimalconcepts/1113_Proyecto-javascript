@@ -126,6 +126,7 @@ const catalogoAutos = [
     combustible: "Gasolina"
   }
 ];
+
 const lista = document.getElementById("vehicle-list");
 
 function renderAutos(autos) {
