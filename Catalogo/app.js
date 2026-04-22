@@ -25,5 +25,14 @@ const catalogoAutos = [
     precio: 250000,
     color: "Rojo",
     combustible: "Gasolina"
+  },
+  {
+    marca: "Ferrari",
+    modelo: "F8 Tributo",
+    año: 2022,
+    kilometraje: 3000,
+    precio: 350000,
+    color: "Rojo",
+    combustible: "Gasolina"
   }
 ];
