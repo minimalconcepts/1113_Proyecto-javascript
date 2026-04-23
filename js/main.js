@@ -1,1 +1,1 @@
-console.log("Inicio cargado correctamente");
+console.log("Proyecto iniciado");

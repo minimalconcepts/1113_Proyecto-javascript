@@ -1,34 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Vehicle Catalog</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Concesionario</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <h1>Vehicle Catalog</h1>
+    <h1>Concesionario de Autos</h1>
 
-  <div id="filters">
-    <select id="brandFilter">
-      <option value="">All Brands</option>
-      <option value="Lamborghini">Lamborghini</option>
-      <option value="Ferrari">Ferrari</option>
-      <option value="Bugatti">Bugatti</option>
-    </select>
+    <nav>
+        <button>Inicio</button>
+        <button>Catálogo</button>
+        <button>Contacto</button>
+    </nav>
 
-    <select id="typeFilter">
-      <option value="">All Types</option>
-      <option value="Deportivo">Deportivo</option>
-    </select>
+    <div id="contenido">
+        <p>Bienvenido al concesionario</p>
+    </div>
 
-    <button onclick="applyFilters()">Filter</button>
-    <button onclick="ordenarPrecio()">Sort by Price</button>
-    <button onclick="reset()">Reset</button>
-  </div>
-
-  <div id="vehicle-list"></div>
-
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
