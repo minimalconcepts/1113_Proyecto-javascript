@@ -48,3 +48,16 @@ Por ahora el objetivo NO es construir una plataforma completa de concesionario, 
 ---
 
 by el profe Henry O. Kyrbot: con carino, para que aprendan a programar con cabeza, corazon y sin miedo a equivocarse
+
+---
+
+## Mensaje especial para el Sr. Tapias
+
+Sr. Tapias, hay que reconocerle algo: la perseverancia. Pocos logran seguir intentándolo con tanta fe después de tantos... resultados creativos. Eso habla bien de usted, en serio.
+
+Todavía hay margen de mejora. Bastante margen, para ser honestos. Pero el potencial está, enterrado ahí en algún lugar, esperando que usted lo encuentre. Quizás hoy sea el día. O mañana. O algún día de este año.
+
+Siga así, Sr. Tapias. El que la sigue... a veces la consigue.
+
+Con fe renovada,
+El profe Henry
