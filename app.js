@@ -59,7 +59,17 @@ const vehiculos = [
     anio: 2024,
     imagen:"https://i.pinimg.com/1200x/d3/19/f9/d319f9db0ca9ca5cdcc65376a02c5990.jpg"
   },
+  {
+    id: 7,
+    marca: "Pagani",
+    modelo: "Zonda Lewis Hamilton",
+    tipo: "superdeportivo",
+    precio: 11500000,
+    anio: 2014,
+    imagen: "https://i.pinimg.com/736x/43/63/b6/4363b6f252245e2f55bd62f7b551e6bc.jpg"
 
+  },
+  
 ];
  
 const catalogo = document.getElementById("catalogo");
