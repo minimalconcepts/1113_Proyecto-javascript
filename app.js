@@ -105,7 +105,7 @@ const vehiculos = [
   {
     id: 11,
     marca: "Ford",
-    modelo: "Ford Super Cobra Jet 1800 Mustang",
+    modelo: "Super Cobra Jet 1800 Mustang",
     tipo: "Muscle",
     precio: 5000000,
     anio: 2024,
