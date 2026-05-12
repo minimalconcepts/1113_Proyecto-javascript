@@ -6,7 +6,7 @@ const vehiculos = [
     tipo: "superdeportivo",
     precio: 920000,
     anio: 2024,
-    imagen: ""
+    imagen: "https://i.pinimg.com/736x/0e/71/f0/0e71f0ca67067f85c991c97cca1954ce.jpg"
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const vehiculos = [
     tipo: "superdeportivo",
     precio: 3500000,
     anio: 2016,
-    imagen: ""
+    imagen: "https://i.pinimg.com/736x/51/8b/9a/518b9a97337da1dbf0e365c55b282524.jpg"
   },
 
   {
@@ -35,7 +35,7 @@ const vehiculos = [
     tipo: "deportivo",
     precio: 320000,
     anio: 2024,
-    imagen: ""
+    imagen: "https://i.pinimg.com/1200x/8c/5e/b3/8c5eb3834a87fc0e372855d3af691312.jpg"
   },
 
   {
@@ -45,7 +45,19 @@ const vehiculos = [
     tipo: "deportivo",
     precio: 210000,
     anio: 2021,
-    imagen: ""
+    imagen: "https://i.pinimg.com/736x/2c/73/98/2c7398f0e4b73a61d7227d1d493ae415.jpg"
+  },
+
+
+  {
+
+    id: 6,
+    marca: "Koenigsegg",
+    modelo: "Jesko Atack",
+    tipo: "superdeportivo",
+    precio: 3000000,
+    anio: 2024,
+    imagen:"https://i.pinimg.com/1200x/d3/19/f9/d319f9db0ca9ca5cdcc65376a02c5990.jpg"
   },
 
 ];
