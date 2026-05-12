@@ -69,7 +69,49 @@ const vehiculos = [
     imagen: "https://i.pinimg.com/736x/43/63/b6/4363b6f252245e2f55bd62f7b551e6bc.jpg"
 
   },
-  
+
+   {
+    id: 8,
+    marca: "Zenvo",
+    modelo: "TSR-S",
+    tipo: "superdeportivo",
+    precio: 1800000,
+    anio: 2024,
+    imagen: "https://i.pinimg.com/1200x/ac/59/a0/ac59a00a875aec9cae3289a40c8c9118.jpg"
+
+  },
+
+  {
+    id: 9,
+    marca: "Lamborghini",
+    modelo: "Murcielago SV",
+    tipo: "superdeportivo",
+    precio: 1000000,
+    anio: 2010,
+    imagen: "https://i.pinimg.com/1200x/1b/6f/34/1b6f3401eebc79d231df77296a3c4fb3.jpg"
+
+  },
+
+ {
+    id: 10,
+    marca: "Lamborghini",
+    modelo: "Reventon",
+    tipo: "superdeportivo",
+    precio: 2000000,
+    anio: 2008,
+    imagen: "https://i.pinimg.com/1200x/85/03/2c/85032cf5931de7983216f6301470e074.jpg"
+
+  },
+  {
+    id: 11,
+    marca: "Ford",
+    modelo: "Ford Super Cobra Jet 1800 Mustang",
+    tipo: "Muscle",
+    precio: 5000000,
+    anio: 2024,
+    imagen: "https://i.pinimg.com/1200x/ac/1a/78/ac1a7898691ef45844d9099aabc6393b.jpg"
+
+  },
 ];
  
 const catalogo = document.getElementById("catalogo");
