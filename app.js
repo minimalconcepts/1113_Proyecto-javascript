@@ -1,7 +1,7 @@
 const vehiculos = [
    {
     id: 1,
-    marca: "Aston Martin ",
+    marca: "Aston Martin",
     modelo: "Valhalla",
     tipo: "superdeportivo",
     precio: 920000,
@@ -115,25 +115,6 @@ const vehiculos = [
 ];
  
 const catalogo = document.getElementById("catalogo");
-
-function pintarVehiculos(lista) {
-  catalogo.innerHTML = lista
-    .map(
-      (auto) => `
-      <article class="card">
-        <img src="${auto.imagen}" alt="${auto.marca} ${auto.modelo}" />
-        <h3>${auto.marca} ${auto.modelo}</h3>
-        <p>Tipo: ${auto.tipo}</p>
-        <p>Precio: $${auto.precio.toLocaleString()}</p>
-        <p>Año: ${auto.anio}</p>
-      </article>
-    `
-    )
-    .join("");
-}
-
-pintarVehiculos(vehiculos);
-
 const selectMarca = document.getElementById("marca");
 const selectTipo = document.getElementById("tipo");
 
@@ -173,3 +154,5 @@ function pintarVehiculos(lista) {
     )
     .join("");
 }
+
+pintarVehiculos(vehiculos);
