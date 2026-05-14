@@ -148,7 +148,7 @@ function pintarVehiculos(lista) {
         <h3>${auto.marca} ${auto.modelo}</h3>
         <p>Tipo: ${auto.tipo}</p>
         <p>Precio: $${auto.precio.toLocaleString()}</p>
-        <p>Año: ${auto.anio}</p>
+        <p>AÃ±o: ${auto.anio}</p>
       </article>
     `
     )
