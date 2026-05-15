@@ -18,7 +18,6 @@ public class AutoRoutes {
     }
 
     public void register() {
-        appConfig.get("/autos", autoController::index);
         appConfig.get("/autos/calle", autoController::calle);
         appConfig.get("/autos/deportivos", autoController::deportivos);
         appConfig.get("/autos/superdeportivos", autoController::superdeportivos);

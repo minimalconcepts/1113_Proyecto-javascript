@@ -6,10 +6,6 @@ package com.agencia.museomotor.controllers;
  */
 public class AutoController extends BaseController {
 
-    public String index() {
-        return view("autos/index.html");
-    }
-
     public String calle() {
         return view("autos/calle.html");
     }
