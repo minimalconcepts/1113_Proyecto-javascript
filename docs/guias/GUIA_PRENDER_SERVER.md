@@ -2,7 +2,141 @@
 
 Esta guia explica lo minimo que se necesita para prender el servidor Java del proyecto y mostrar la pagina en el navegador.
 
-## 1. Requisitos
+## 1. Aplicaciones requeridas
+
+Para prender el servidor se necesita:
+
+- Visual Studio Code.
+- Java JDK u OpenJDK.
+- Terminal de PowerShell.
+
+Importante:
+
+No basta con tener solo Java para ejecutar programas. Tambien se necesita el compilador `javac`, que viene con el JDK.
+
+## 2. Si no tienes Java ni javac
+
+Si estos comandos no funcionan:
+
+```powershell
+java -version
+```
+
+```powershell
+javac -version
+```
+
+Instala un JDK.
+
+Opciones recomendadas:
+
+- Microsoft Build of OpenJDK.
+- Eclipse Temurin OpenJDK.
+- Oracle JDK.
+
+Recomendado para el proyecto:
+
+```text
+OpenJDK 21
+```
+
+Despues de instalarlo:
+
+1. Cierra VS Code completamente.
+2. Vuelve a abrir VS Code.
+3. Abre una terminal nueva.
+4. Prueba otra vez:
+
+```powershell
+java -version
+```
+
+```powershell
+javac -version
+```
+
+## 3. Si Java funciona pero javac no
+
+Si este comando funciona:
+
+```powershell
+java -version
+```
+
+Pero este no:
+
+```powershell
+javac -version
+```
+
+Significa que probablemente tienes Java instalado, pero no tienes el JDK completo o Windows no encuentra la carpeta `bin` del JDK.
+
+Busca una ruta parecida a esta:
+
+```text
+C:\Program Files\Java\jdk-21\bin
+```
+
+O esta:
+
+```text
+C:\Program Files\Microsoft\jdk-21...\bin
+```
+
+Esa carpeta debe estar en el `PATH` de Windows.
+
+Pasos para agregarla:
+
+1. Busca en Windows: `Variables de entorno`.
+2. Abre `Editar las variables de entorno del sistema`.
+3. Entra a `Variables de entorno`.
+4. En `Variables del sistema`, busca `Path`.
+5. Clic en `Editar`.
+6. Clic en `Nuevo`.
+7. Pega la ruta del `bin` del JDK.
+8. Acepta todo.
+9. Cierra VS Code.
+10. Abre VS Code otra vez.
+11. Prueba:
+
+```powershell
+javac -version
+```
+
+## 4. Si VS Code no detecta OpenJDK
+
+Si Java esta instalado pero VS Code no lo reconoce:
+
+1. Cierra VS Code completamente.
+2. Abre VS Code otra vez.
+3. Abre una terminal nueva.
+4. Ejecuta:
+
+```powershell
+java -version
+```
+
+```powershell
+javac -version
+```
+
+Si todavia no funciona, reinicia el computador.
+
+Si sigue sin funcionar, revisa que el `PATH` tenga la ruta del JDK, por ejemplo:
+
+```text
+C:\Program Files\Microsoft\jdk-21...\bin
+```
+
+Tambien puedes instalar en VS Code la extension:
+
+```text
+Extension Pack for Java
+```
+
+Esta extension ayuda a VS Code a detectar proyectos Java, aunque para este proyecto lo mas importante es que la terminal reconozca `java` y `javac`.
+
+## 5. Verificar requisitos
 
 Antes de prender el servidor, verifica que tengas Java y `javac`.
 
@@ -20,7 +154,7 @@ javac -version
 
 Si los dos comandos muestran una version, puedes continuar.
 
-## 2. Abrir el proyecto en VS Code
+## 6. Abrir el proyecto en VS Code
 
 Abre esta carpeta en Visual Studio Code:
 
@@ -40,7 +174,7 @@ Si la terminal no esta ubicada en el proyecto, ejecuta:
 cd "C:\Users\PROGRAMADOR\Documents\1113_Agencia_SAS"
 ```
 
-## 3. Compilar el proyecto
+## 7. Compilar el proyecto
 
 Ejecuta estos comandos en orden:
 
@@ -60,7 +194,7 @@ javac -encoding UTF-8 -d target\classes $sources
 Copy-Item -Recurse -Force src\main\resources\* target\classes\
 ```
 
-## 4. Prender el servidor
+## 8. Prender el servidor
 
 Ejecuta:
 
@@ -74,7 +208,7 @@ Si todo esta bien, debe salir algo parecido a:
 Museo Wiki del Motor disponible en http://localhost:8080
 ```
 
-## 5. Abrir la pagina
+## 9. Abrir la pagina
 
 En el navegador abre:
 
@@ -82,7 +216,7 @@ En el navegador abre:
 http://localhost:8080
 ```
 
-## 6. Rutas principales
+## 10. Rutas principales
 
 ```text
 http://localhost:8080/
@@ -99,7 +233,7 @@ http://localhost:8080/aviones/comerciales
 http://localhost:8080/aviones/combate
 ```
 
-## 7. Apagar el servidor
+## 11. Apagar el servidor
 
 En la terminal donde esta prendido el servidor, presiona:
 
@@ -107,7 +241,7 @@ En la terminal donde esta prendido el servidor, presiona:
 Ctrl + C
 ```
 
-## 8. Si el puerto 8080 esta ocupado
+## 12. Si el puerto 8080 esta ocupado
 
 Si aparece un error como:
 
@@ -145,7 +279,7 @@ Luego vuelve a prender el servidor:
 java -cp target\classes com.agencia.museomotor.Main
 ```
 
-## 9. Codigo completo para copiar y pegar
+## 13. Codigo completo para copiar y pegar
 
 Este bloque sirve para compilar y prender todo desde cero:
 
@@ -158,7 +292,7 @@ Copy-Item -Recurse -Force src\main\resources\* target\classes\
 java -cp target\classes com.agencia.museomotor.Main
 ```
 
-## 10. Si cambias imagenes, HTML o CSS
+## 14. Si cambias imagenes, HTML o CSS
 
 Si solo cambiaste archivos dentro de:
 
@@ -174,7 +308,7 @@ Copy-Item -Recurse -Force src\main\resources\* target\classes\
 
 Luego recarga el navegador.
 
-## 11. Si cambias rutas o controladores
+## 15. Si cambias rutas o controladores
 
 Si cambiaste archivos dentro de:
 
