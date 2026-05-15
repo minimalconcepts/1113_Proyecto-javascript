@@ -205,7 +205,7 @@ src/main/resources/static/js/app.js
 Desde PowerShell, entra a la carpeta del proyecto:
 
 ```powershell
-cd "C:\Users\Jhoan Andres\Documents\1113_Agencia_SAS"
+cd "C:\Users\PROGRAMADOR\Documents\1113_Agencia_SAS"
 ```
 
 Compila:
