@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Museo Wiki del Motor</title>
+  <link rel="stylesheet" href="/static/css/wiki.css" />
+</head>
+<body>
+  <!-- Cabecera principal: entrada general a la wiki tipo museo. -->
+  <header class="hero">
+    <nav class="navbar" aria-label="Navegacion principal">
+      <a class="brand" href="/">Museo Wiki del Motor</a>
+      <div class="nav-links">
+        <a href="#autos">Autos</a>
+        <a href="#motos">Motos</a>
+        <a href="#aviones">Aviones</a>
+      </div>
+    </nav>
+
+    <!-- Presentacion del sitio: explica el concepto de salas y colecciones. -->
+    <section class="hero-content">
+      <p class="label">Wiki organizada como museo</p>
+      <h1>Explora autos, motos y aviones por colecciones.</h1>
+      <p>Cada sala tiene una ruta, un controlador y una plantilla independiente para mantener el backend ordenado.</p>
+    </section>
+  </header>
+
+  <main>
+    <!-- Ala de autos: contiene el catalogo original y sus categorias. -->
+    <section class="wing" id="autos">
+      <div class="section-title">
+        <p class="label">Ala 01</p>
+        <h2>Autos</h2>
+      </div>
+      <div class="room-grid">
+        <a class="room-card featured" href="/autos"><span>Catalogo</span><strong>Autos</strong><small>Vista conectada al controlador AutoController.</small></a>
+        <a class="room-card" href="/autos/calle"><span>Sala</span><strong>Calle</strong></a>
+        <a class="room-card" href="/autos/deportivos"><span>Sala</span><strong>Deportivos</strong></a>
+        <a class="room-card" href="/autos/superdeportivos"><span>Sala</span><strong>Superdeportivos</strong></a>
+        <a class="room-card" href="/autos/hyper-cars"><span>Sala</span><strong>Hyper cars</strong></a>
+        <a class="room-card" href="/autos/gt3"><span>Sala</span><strong>GT3</strong></a>
+        <a class="room-card" href="/autos/concept-cars"><span>Sala</span><strong>Concept cars</strong></a>
+      </div>
+    </section>
+
+    <!-- Ala de motos: separa las rutas por tipo de motocicleta. -->
+    <section class="wing" id="motos">
+      <div class="section-title">
+        <p class="label">Ala 02</p>
+        <h2>Motos</h2>
+      </div>
+      <div class="room-grid">
+        <a class="room-card" href="/motos/calle"><span>Sala</span><strong>Calle</strong></a>
+        <a class="room-card" href="/motos/alto-cilindraje"><span>Sala</span><strong>Alto cilindraje</strong></a>
+        <a class="room-card" href="/motos/gp"><span>Sala</span><strong>GP</strong></a>
+      </div>
+    </section>
+
+    <!-- Ala de aviones: divide aeronaves civiles y militares. -->
+    <section class="wing" id="aviones">
+      <div class="section-title">
+        <p class="label">Ala 03</p>
+        <h2>Aviones</h2>
+      </div>
+      <div class="room-grid">
+        <a class="room-card" href="/aviones/comerciales"><span>Sala</span><strong>Comerciales</strong></a>
+        <a class="room-card" href="/aviones/guerra"><span>Sala</span><strong>Guerra</strong></a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
