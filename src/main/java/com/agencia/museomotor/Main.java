@@ -10,7 +10,7 @@ import com.agencia.museomotor.routes.RouteConfig;
 public class Main {
 
     public static void main(String[] args) {
-        AppConfig appConfig = new AppConfig(8080);
+        AppConfig appConfig = new AppConfig(8081 );
         RouteConfig routeConfig = new RouteConfig(appConfig);
 
         routeConfig.registerRoutes();

@@ -68,7 +68,8 @@ body {
 
 /* Imagen de auto: usa un formato mas cinematografico para vehiculos. */
 .vehicle-card img {
-  height: 145px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   filter: saturate(1.06) contrast(1.03);
 }
 
@@ -96,6 +97,7 @@ body {
 /* Ajuste movil: reduce altura de imagen para evitar tarjetas demasiado largas. */
 @media (max-width: 680px) {
   .vehicle-card img {
-    height: 140px;
+    aspect-ratio: 1 / 1;
+    height: auto;
   }
 }

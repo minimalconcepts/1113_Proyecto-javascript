@@ -237,7 +237,7 @@ main {
 /* Cuadricula de vehiculos: organiza las tarjetas de manera responsive. */
 .vehicle-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 190px));
   justify-content: start;
   gap: 14px;
   margin-top: 16px;
@@ -255,7 +255,8 @@ main {
 /* Imagen principal del vehiculo dentro de cada sala. */
 .vehicle-card img {
   width: 100%;
-  height: 135px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   display: block;
   object-fit: cover;
 }
