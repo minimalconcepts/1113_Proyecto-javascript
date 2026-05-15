@@ -134,18 +134,19 @@ main {
 /* Cuadricula de salas. */
 .room-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 210px));
+  justify-content: start;
+  gap: 14px;
 }
 
 /* Tarjeta de sala: cada tarjeta lleva a un HTML independiente. */
 .room-card {
-  min-height: 156px;
+  min-height: 132px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 6px;
-  padding: 18px;
+  padding: 15px;
   background: var(--tarjeta);
   border: 1px solid var(--linea);
   border-radius: 8px;
@@ -173,7 +174,7 @@ main {
 }
 
 .room-card strong {
-  font-size: 1.35rem;
+  font-size: 1.12rem;
 }
 
 .room-card small {
@@ -236,8 +237,9 @@ main {
 /* Cuadricula de vehiculos: organiza las tarjetas de manera responsive. */
 .vehicle-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+  justify-content: start;
+  gap: 14px;
   margin-top: 16px;
 }
 
@@ -253,24 +255,25 @@ main {
 /* Imagen principal del vehiculo dentro de cada sala. */
 .vehicle-card img {
   width: 100%;
-  height: 185px;
+  height: 135px;
   display: block;
   object-fit: cover;
 }
 
 /* Contenido textual de cada tarjeta. */
 .vehicle-card div {
-  padding: 16px;
+  padding: 12px;
 }
 
 .vehicle-card h3 {
-  margin: 0 0 8px;
-  font-size: 1.08rem;
+  margin: 0 0 7px;
+  font-size: 0.98rem;
 }
 
 .vehicle-card p {
-  margin: 6px 0;
+  margin: 4px 0;
   color: var(--muted);
+  font-size: 0.9rem;
 }
 
 /* Estado vacio: indica que una sala ya existe aunque aun no tenga modelos. */

@@ -1,0 +1,101 @@
+/* =========================================================
+   Estilos exclusivos del apartado Autos.
+   Este archivo se carga despues de wiki.css para personalizar
+   solo las salas de autos sin afectar motos ni aviones.
+   ========================================================= */
+
+/* Fondo del apartado: agrega una atmosfera mas tecnica y automotriz. */
+body {
+  background:
+    linear-gradient(180deg, rgba(247, 247, 244, 0.96), rgba(234, 229, 219, 0.96)),
+    repeating-linear-gradient(90deg, transparent 0 38px, rgba(183, 25, 44, 0.04) 38px 39px);
+}
+
+/* Cabecera de autos: usa una linea roja mas marcada para diferenciar el ala. */
+.page-header {
+  background:
+    linear-gradient(115deg, rgba(16, 16, 16, 0.96), rgba(68, 22, 28, 0.88)),
+    radial-gradient(circle at top right, rgba(245, 192, 77, 0.2), transparent 34%);
+  border-bottom-color: #d71920;
+}
+
+/* Etiqueta de sala: cambia el color para que autos tenga identidad propia. */
+.page-header .label {
+  color: #ffcf54;
+}
+
+/* Barra de navegacion: mejora el contraste sobre la cabecera de autos. */
+.page-header .nav-links a {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+/* Panel informativo: parece una ficha tecnica de museo automotriz. */
+.info-panel {
+  border-left-color: #d71920;
+  background: linear-gradient(180deg, #ffffff, #fff9ef);
+}
+
+/* Titulo de las secciones de autos. */
+.vehicle-section h2 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(183, 25, 44, 0.18);
+}
+
+/* Tarjeta de auto: da mas presencia visual a cada pieza registrada. */
+.vehicle-card {
+  position: relative;
+  border-color: rgba(183, 25, 44, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Interaccion de tarjeta: resalta el auto al pasar el mouse. */
+.vehicle-card:hover {
+  transform: translateY(-5px);
+  border-color: #b7192c;
+  box-shadow: 0 18px 38px rgba(32, 32, 32, 0.18);
+}
+
+/* Franja superior decorativa: simula una etiqueta de categoria. */
+.vehicle-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #b7192c, #f5c04d);
+  z-index: 1;
+}
+
+/* Imagen de auto: usa un formato mas cinematografico para vehiculos. */
+.vehicle-card img {
+  height: 145px;
+  filter: saturate(1.06) contrast(1.03);
+}
+
+/* Nombre del auto: mantiene una jerarquia clara dentro de la tarjeta. */
+.vehicle-card h3 {
+  color: #171717;
+  line-height: 1.25;
+}
+
+/* Datos tecnicos: se leen como ficha de coleccion. */
+.vehicle-card p {
+  font-size: 0.95rem;
+}
+
+.vehicle-card strong {
+  color: #72111d;
+}
+
+/* Mensaje de sala vacia: mantiene el estilo del apartado autos. */
+.empty-room {
+  border-color: rgba(183, 25, 44, 0.4);
+  background: #fff9ef;
+}
+
+/* Ajuste movil: reduce altura de imagen para evitar tarjetas demasiado largas. */
+@media (max-width: 680px) {
+  .vehicle-card img {
+    height: 140px;
+  }
+}
