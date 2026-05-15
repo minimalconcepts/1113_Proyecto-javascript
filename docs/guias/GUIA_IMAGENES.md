@@ -1,16 +1,12 @@
-# Guia para agregar imagenes al museo
+# Guia para agregar imagenes
 
-Esta guia explica donde poner imagenes y como usarlas en las paginas HTML del proyecto.
-
-## Donde van las imagenes
-
-Todas las imagenes del proyecto Java deben ir dentro de:
+Las imagenes deben guardarse dentro de:
 
 ```text
 src/main/resources/static/images/
 ```
 
-La organizacion recomendada es:
+## Carpetas por categoria
 
 ```text
 src/main/resources/static/images/
@@ -27,47 +23,24 @@ src/main/resources/static/images/
 │   └── gp/
 └── aviones/
     ├── comerciales/
-    └── guerra/
+    └── combate/
 ```
 
-Si una carpeta no existe, se puede crear manualmente.
+## Como nombrar imagenes
 
-## Como nombrar las imagenes
+Usen nombres sin espacios, sin tildes y en minusculas.
 
-Usen nombres claros, sin espacios y sin tildes.
-
-Correcto:
+Ejemplos correctos:
 
 ```text
-aston-martin-valhalla.jpg
 audi-r8-v10.jpg
-boeing-747.jpg
+aston-martin-valhalla.jpg
 ducati-panigale-v4.jpg
+boeing-747.jpg
+f-22-raptor.jpg
 ```
 
-Eviten:
-
-```text
-imagen 1.jpg
-mi foto.png
-carro bonito.jpeg
-avión guerra.png
-```
-
-## Formatos recomendados
-
-Pueden usar:
-
-```text
-.jpg
-.jpeg
-.png
-.webp
-```
-
-Para fotos de vehiculos, lo mejor suele ser `.jpg` o `.webp`.
-
-## Como poner una imagen en un HTML
+## Como usar una imagen en HTML
 
 Si guardan una imagen aqui:
 
@@ -75,7 +48,7 @@ Si guardan una imagen aqui:
 src/main/resources/static/images/autos/deportivos/audi-r8-v10.jpg
 ```
 
-En el HTML se usa asi:
+En el HTML se pone asi:
 
 ```html
 <img
@@ -84,11 +57,28 @@ En el HTML se usa asi:
 />
 ```
 
-Importante:
+No se pone la ruta completa de Windows. La ruta siempre empieza con:
 
-- La ruta en HTML siempre empieza con `/static/images/`.
-- No se escribe `src/main/resources`.
-- El `alt` debe describir la imagen.
+```text
+/static/images/
+```
+
+## Imagenes en cuadritos
+
+Las tarjetas ya estan configuradas para que las imagenes salgan en cuadro.
+
+Esto lo hace el CSS:
+
+```css
+aspect-ratio: 1 / 1;
+object-fit: cover;
+```
+
+Eso significa:
+
+- La imagen queda cuadrada.
+- No se deforma.
+- Si la imagen es muy horizontal o vertical, se recorta un poco para que se vea ordenada.
 
 ## Ejemplo completo de tarjeta
 
@@ -107,72 +97,28 @@ Importante:
 </article>
 ```
 
-## En que archivo editar
-
-Las vistas estan en:
+## Donde editar cada sala
 
 ```text
-src/main/resources/templates/
-```
-
-Ejemplos:
-
-```text
+src/main/resources/templates/autos/calle.html
 src/main/resources/templates/autos/deportivos.html
+src/main/resources/templates/autos/superdeportivos.html
 src/main/resources/templates/autos/hyper-cars.html
+src/main/resources/templates/autos/gt3.html
+src/main/resources/templates/autos/concept-cars.html
+src/main/resources/templates/motos/calle.html
+src/main/resources/templates/motos/alto-cilindraje.html
 src/main/resources/templates/motos/gp.html
-src/main/resources/templates/aviones/guerra.html
-```
-
-Si quieren agregar una imagen a la sala de hyper cars, editan:
-
-```text
-src/main/resources/templates/autos/hyper-cars.html
-```
-
-Y guardan la imagen en:
-
-```text
-src/main/resources/static/images/autos/hyper-cars/
+src/main/resources/templates/aviones/comerciales.html
+src/main/resources/templates/aviones/combate.html
 ```
 
 ## Despues de agregar imagenes
 
-Hay que recompilar y copiar recursos al `target`.
-
-Desde PowerShell, dentro del proyecto:
+Copien otra vez los recursos al `target`:
 
 ```powershell
-cd "C:\Users\PROGRAMADOR\Documents\1113_Agencia_SAS"
-```
-
-Ejecutar:
-
-```powershell
-New-Item -ItemType Directory -Force -Path target\classes
-$sources = Get-ChildItem -Path src\main\java -Recurse -Filter *.java | ForEach-Object { $_.FullName }
-javac -encoding UTF-8 -d target\classes $sources
 Copy-Item -Recurse -Force src\main\resources\* target\classes\
 ```
 
-Luego levantar el servidor:
-
-```powershell
-java -cp target\classes com.agencia.museomotor.Main
-```
-
-Abrir:
-
-```text
-http://localhost:8080
-```
-
-## Reglas para mantener orden
-
-- Cada imagen debe ir en la carpeta de su categoria.
-- No usar espacios ni tildes en nombres de archivos.
-- Usar nombres descriptivos.
-- No guardar imagenes en la raiz del proyecto.
-- No guardar imagenes dentro de `templates`.
-- No usar rutas de Windows como `C:\Users\...` dentro del HTML.
-- Usar siempre rutas web como `/static/images/...`.
+Luego recarguen el navegador.

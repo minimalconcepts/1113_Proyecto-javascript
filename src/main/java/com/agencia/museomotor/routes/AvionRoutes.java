@@ -5,7 +5,7 @@ import com.agencia.museomotor.controllers.AvionController;
 
 /**
  * Rutas del ala de aviones.
- * Separa aviacion comercial y militar en endpoints independientes.
+ * Separa aviacion comercial y de combate en endpoints independientes.
  */
 public class AvionRoutes {
 
@@ -19,6 +19,6 @@ public class AvionRoutes {
 
     public void register() {
         appConfig.get("/aviones/comerciales", avionController::comerciales);
-        appConfig.get("/aviones/guerra", avionController::guerra);
+        appConfig.get("/aviones/combate", avionController::combate);
     }
 }
