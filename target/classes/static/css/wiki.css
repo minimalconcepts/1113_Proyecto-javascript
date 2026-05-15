@@ -228,6 +228,61 @@ main {
   color: var(--muted);
 }
 
+/* Seccion de piezas: separa la explicacion de la sala de los autos registrados. */
+.vehicle-section {
+  margin-top: 28px;
+}
+
+/* Cuadricula de vehiculos: organiza las tarjetas de manera responsive. */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+/* Tarjeta de vehiculo: presenta imagen, nombre y datos principales. */
+.vehicle-card {
+  overflow: hidden;
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  box-shadow: var(--sombra);
+}
+
+/* Imagen principal del vehiculo dentro de cada sala. */
+.vehicle-card img {
+  width: 100%;
+  height: 185px;
+  display: block;
+  object-fit: cover;
+}
+
+/* Contenido textual de cada tarjeta. */
+.vehicle-card div {
+  padding: 16px;
+}
+
+.vehicle-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+
+.vehicle-card p {
+  margin: 6px 0;
+  color: var(--muted);
+}
+
+/* Estado vacio: indica que una sala ya existe aunque aun no tenga modelos. */
+.empty-room {
+  margin-top: 16px;
+  padding: 18px;
+  background: var(--tarjeta);
+  border: 1px dashed var(--linea);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
 /* Ajustes para pantallas pequenas. */
 @media (max-width: 680px) {
   .navbar {
