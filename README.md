@@ -1,4 +1,4 @@
-# Car Dealer Motorsport
+# Car museum 
 
 ## Descripcion
 Proyecto educativo desarrollado por estudiantes de Mecatronica 1113 para practicar los fundamentos de desarrollo web con `HTML`, `CSS` y `JavaScript`.
