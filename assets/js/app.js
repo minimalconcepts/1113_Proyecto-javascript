@@ -66,6 +66,7 @@ function renderApp() {
 
 function renderHome() {
   const stats = getMuseumStats();
+  const recommended = getRandomEntry();
 
   app.innerHTML = `
     <section class="home-hero">
@@ -73,6 +74,12 @@ function renderHome() {
         <p class="eyebrow">Wiki museo 1113</p>
         <h1>Explora maquinas por salas, historia y categorias.</h1>
         <p>Proyecto hecho con HTML, CSS y JavaScript. Usa el menu para navegar o entra directo por las colecciones.</p>
+        ${recommended ? `
+          <a class="recommended-link" href="#/wiki/${recommended.slug}">
+            <span>Recomendado para aprender</span>
+            <strong>${recommended.item.name}</strong>
+          </a>
+        ` : ""}
       </div>
 
       <div class="stats-panel" aria-label="Resumen del museo">
@@ -87,11 +94,11 @@ function renderHome() {
         <p class="eyebrow">Herramientas</p>
         <h2>Aprende y guarda lo importante</h2>
       </div>
-      <div class="quick-actions">
-        <a class="action-card" href="#/random"><span>Descubrir</span><strong>Randomizador</strong><small>Elige una pieza al azar.</small></a>
-        <a class="action-card" href="#/favoritos"><span>Guardar</span><strong>Favoritos</strong><small>Revisa tu coleccion personal.</small></a>
-        <a class="action-card" href="#/pilotos"><span>Historia</span><strong>Pilotos famosos</strong><small>Conoce figuras importantes.</small></a>
-        <a class="action-card" href="#/fundadores"><span>Marcas</span><strong>Creadores</strong><small>Aprende quien fundo cada marca.</small></a>
+      <div class="tool-grid">
+        <a class="tool-card" href="#/random"><span>01</span><strong>Randomizador</strong><small>Elige una pieza al azar.</small></a>
+        <a class="tool-card" href="#/favoritos"><span>02</span><strong>Favoritos</strong><small>Revisa tu coleccion personal.</small></a>
+        <a class="tool-card" href="#/pilotos"><span>03</span><strong>Pilotos famosos</strong><small>Conoce figuras importantes.</small></a>
+        <a class="tool-card" href="#/fundadores"><span>04</span><strong>Creadores</strong><small>Aprende quien fundo cada marca.</small></a>
       </div>
     </section>
 
@@ -108,9 +115,12 @@ function renderHome() {
 function renderSection(section) {
   return `
     <section class="museum-section" id="${section.id}">
-      <div class="section-heading">
-        <p class="eyebrow">${section.title}</p>
-        <h2>${section.description}</h2>
+      <div class="section-heading section-row">
+        <div>
+          <p class="eyebrow">${section.title}</p>
+          <h2>${section.description}</h2>
+        </div>
+        <span>${section.routes.length} salas</span>
       </div>
       <div class="route-grid">
         ${section.routes.map(renderRouteCard).join("")}
@@ -124,6 +134,7 @@ function renderRouteCard(route) {
     <a class="route-card" href="#${route.path}">
       <span>Sala</span>
       <strong>${route.label}</strong>
+      <small>${route.path}</small>
     </a>
   `;
 }
@@ -263,8 +274,7 @@ function renderFavorites() {
 }
 
 function renderRandomizer() {
-  const items = getAllItems();
-  const randomEntry = items[Math.floor(Math.random() * items.length)];
+  const randomEntry = getRandomEntry();
 
   if (!randomEntry) {
     app.innerHTML = `<p class="empty-state">Todavia no hay piezas para randomizar.</p>`;
@@ -377,6 +387,11 @@ function getAllItems() {
       slug: createSlug(item.name)
     }))
   );
+}
+
+function getRandomEntry() {
+  const items = getAllItems();
+  return items[Math.floor(Math.random() * items.length)];
 }
 
 function getFavorites() {

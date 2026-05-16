@@ -216,7 +216,8 @@ h2 {
 .vehicle-grid,
 .pilot-grid,
 .founder-grid,
-.quick-actions {
+.quick-actions,
+.tool-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 210px));
   justify-content: start;
@@ -229,6 +230,7 @@ h2 {
 .pilot-card,
 .founder-card,
 .action-card,
+.tool-card,
 .room-header,
 .wiki-entry {
   background: var(--surface);
@@ -238,7 +240,8 @@ h2 {
 }
 
 .route-card,
-.action-card {
+.action-card,
+.tool-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -254,25 +257,31 @@ h2 {
   min-height: 118px;
 }
 
-.quick-actions {
+.quick-actions,
+.tool-grid {
   margin-top: 22px;
 }
 
 .route-card,
 .vehicle-card,
-.action-card {
+.action-card,
+.tool-card,
+.recommended-link {
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .route-card:hover,
 .vehicle-card:hover,
-.action-card:hover {
+.action-card:hover,
+.tool-card:hover,
+.recommended-link:hover {
   transform: translateY(-4px);
   border-color: var(--red);
 }
 
 .route-card span,
-.action-card span {
+.action-card span,
+.tool-card span {
   color: var(--red);
   font-size: 0.78rem;
   font-weight: 800;
@@ -281,6 +290,54 @@ h2 {
 
 .route-card strong {
   font-size: 1.12rem;
+}
+
+.route-card small,
+.tool-card small,
+.action-card small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.recommended-link {
+  max-width: 420px;
+  display: grid;
+  gap: 4px;
+  margin-top: 22px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.recommended-link span {
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.section-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-row span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.tool-grid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+.tool-card {
+  min-height: 120px;
+  padding: 16px;
 }
 
 /* === Encabezados internos y botones === */
