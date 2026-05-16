@@ -35,6 +35,14 @@ window.MUSEUM_DATA = {
         { path: "/aviones/comerciales", label: "Comerciales" },
         { path: "/aviones/combate", label: "Combate" }
       ]
+    },
+    {
+      id: "pilotos",
+      title: "Pilotos",
+      description: "Personajes famosos para conectar maquinas con historia humana.",
+      routes: [
+        { path: "/pilotos", label: "Pilotos famosos" }
+      ]
     }
   ],
 
@@ -221,5 +229,44 @@ window.MUSEUM_DATA = {
         }
       ]
     }
-  }
+  },
+
+  pilots: [
+    {
+      name: "Ayrton Senna",
+      area: "Automovilismo",
+      highlight: "Tres veces campeon mundial de Formula 1.",
+      description: "Reconocido por su velocidad, precision bajo lluvia y estilo de manejo intenso."
+    },
+    {
+      name: "Lewis Hamilton",
+      area: "Automovilismo",
+      highlight: "Uno de los pilotos mas ganadores de la Formula 1.",
+      description: "Destaca por su consistencia, tecnica y larga trayectoria en la elite del automovilismo."
+    },
+    {
+      name: "Valentino Rossi",
+      area: "Motociclismo",
+      highlight: "Figura historica de MotoGP.",
+      description: "Famoso por su carisma, control de carrera y rivalidades memorables."
+    },
+    {
+      name: "Marc Marquez",
+      area: "Motociclismo",
+      highlight: "Campeon multiple de MotoGP.",
+      description: "Conocido por su estilo agresivo, inclinaciones extremas y capacidad para recuperar la moto."
+    },
+    {
+      name: "Chuck Yeager",
+      area: "Aviacion",
+      highlight: "Primer piloto confirmado en romper la barrera del sonido.",
+      description: "Piloto de pruebas estadounidense clave en la historia de la aviacion moderna."
+    },
+    {
+      name: "Amelia Earhart",
+      area: "Aviacion",
+      highlight: "Pionera de la aviacion mundial.",
+      description: "Recordada por sus vuelos historicos y por abrir camino a nuevas generaciones de aviadores."
+    }
+  ]
 };
