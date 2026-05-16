@@ -4,8 +4,34 @@
  */
 const app = document.getElementById("app");
 const FAVORITES_KEY = "carDealerMuseumFavorites";
+const THEME_KEY = "carDealerMuseumTheme";
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
+const themeToggle = document.querySelector(".theme-toggle");
+
+function applyTheme(theme) {
+  const selectedTheme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = selectedTheme;
+  localStorage.setItem(THEME_KEY, selectedTheme);
+
+  if (themeToggle) {
+    themeToggle.innerHTML = `<span aria-hidden="true">${selectedTheme === "dark" ? "☀" : "☾"}</span>`;
+    themeToggle.title = selectedTheme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+    themeToggle.setAttribute(
+      "aria-label",
+      selectedTheme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
+    );
+  }
+}
+
+applyTheme(localStorage.getItem(THEME_KEY) || "light");
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme;
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
+  });
+}
 
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
@@ -89,25 +115,27 @@ function renderHome() {
       </div>
     </section>
 
-    <section class="tool-section">
-      <div class="section-heading compact">
-        <p class="eyebrow">Herramientas</p>
-        <h2>Aprende y guarda lo importante</h2>
-      </div>
-      <div class="tool-grid">
-        <a class="tool-card" href="#/random"><span>01</span><strong>Randomizador</strong><small>Elige una pieza al azar.</small></a>
-        <a class="tool-card" href="#/favoritos"><span>02</span><strong>Favoritos</strong><small>Revisa tu coleccion personal.</small></a>
-        <a class="tool-card" href="#/pilotos"><span>03</span><strong>Pilotos famosos</strong><small>Conoce figuras importantes.</small></a>
-        <a class="tool-card" href="#/fundadores"><span>04</span><strong>Creadores</strong><small>Aprende quien fundo cada marca.</small></a>
-      </div>
-    </section>
+    <section class="home-dashboard">
+      <aside class="tool-section">
+        <div class="section-heading compact">
+          <p class="eyebrow">Herramientas</p>
+          <h2>Aprende y guarda</h2>
+        </div>
+        <div class="tool-list">
+          <a class="tool-row" href="#/random"><span>01</span><strong>Randomizador</strong><small>Elige una pieza al azar.</small></a>
+          <a class="tool-row" href="#/favoritos"><span>02</span><strong>Favoritos</strong><small>Revisa tu coleccion.</small></a>
+          <a class="tool-row" href="#/pilotos"><span>03</span><strong>Pilotos</strong><small>Figuras importantes.</small></a>
+          <a class="tool-row" href="#/fundadores"><span>04</span><strong>Creadores</strong><small>Fundadores de marcas.</small></a>
+        </div>
+      </aside>
 
-    <section class="collections-overview">
-      <div class="section-heading compact">
-        <p class="eyebrow">Colecciones</p>
-        <h2>Salas principales</h2>
-      </div>
-      ${window.MUSEUM_DATA.sections.filter((section) => !["pilotos", "fundadores"].includes(section.id)).map(renderSection).join("")}
+      <section class="collections-overview">
+        <div class="section-heading compact">
+          <p class="eyebrow">Colecciones</p>
+          <h2>Salas principales</h2>
+        </div>
+        ${window.MUSEUM_DATA.sections.filter((section) => !["pilotos", "fundadores"].includes(section.id)).map(renderSection).join("")}
+      </section>
     </section>
   `;
 }

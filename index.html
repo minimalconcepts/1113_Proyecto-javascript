@@ -11,27 +11,34 @@
   <header class="app-header">
     <nav class="topbar" aria-label="Navegacion principal">
       <a class="brand" href="#/">Car Dealer Motorsport</a>
-      <div class="menu-wrapper">
-        <!-- Boton de menu: agrupa las rutas para que la barra superior no quede saturada. -->
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
-          Menu
+      <div class="topbar-actions">
+        <!-- Boton de tema: cambia entre modo claro y oscuro sin abrir el menu. -->
+        <button class="theme-toggle" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
+          <span aria-hidden="true">☾</span>
         </button>
 
-        <!-- Menu principal: separa colecciones y herramientas de aprendizaje. -->
-        <div class="nav-menu" id="main-menu">
-          <section>
-            <p>Colecciones</p>
-            <a href="#/autos/deportivos">Autos</a>
-            <a href="#/motos/gp">Motos</a>
-            <a href="#/aviones/comerciales">Aviones</a>
-          </section>
-          <section>
-            <p>Herramientas</p>
-            <a href="#/random">Randomizador</a>
-            <a href="#/favoritos">Favoritos</a>
-            <a href="#/pilotos">Pilotos famosos</a>
-            <a href="#/fundadores">Creadores de marcas</a>
-          </section>
+        <div class="menu-wrapper">
+          <!-- Boton de menu: agrupa las rutas para que la barra superior no quede saturada. -->
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
+            Menu
+          </button>
+
+          <!-- Menu principal: separa colecciones y herramientas de aprendizaje. -->
+          <div class="nav-menu" id="main-menu">
+            <section>
+              <p>Colecciones</p>
+              <a href="#/autos/deportivos">Autos</a>
+              <a href="#/motos/gp">Motos</a>
+              <a href="#/aviones/comerciales">Aviones</a>
+            </section>
+            <section>
+              <p>Herramientas</p>
+              <a href="#/random">Randomizador</a>
+              <a href="#/favoritos">Favoritos</a>
+              <a href="#/pilotos">Pilotos famosos</a>
+              <a href="#/fundadores">Creadores de marcas</a>
+            </section>
+          </div>
         </div>
       </div>
     </nav>

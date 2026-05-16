@@ -6,7 +6,22 @@
   --muted: #68645d;
   --line: #d8d0c2;
   --red: #b7192c;
+  --header-bg: #191919;
+  --image-bg: #e7e1d5;
   --shadow: 0 14px 34px rgba(29, 29, 29, 0.12);
+}
+
+/* === Tema claro/oscuro === */
+:root[data-theme="dark"] {
+  --bg: #111111;
+  --surface: #1d1c1a;
+  --ink: #f6f2ea;
+  --muted: #bbb2a7;
+  --line: #3b362f;
+  --red: #ff5969;
+  --header-bg: #080808;
+  --image-bg: #2a2722;
+  --shadow: 0 16px 38px rgba(0, 0, 0, 0.38);
 }
 
 * {
@@ -55,7 +70,7 @@ h2 {
 
 /* === Header y menu === */
 .app-header {
-  background: #191919;
+  background: var(--header-bg);
   color: white;
   border-bottom: 5px solid var(--red);
 }
@@ -78,19 +93,38 @@ h2 {
   font-weight: 800;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .menu-wrapper {
   position: relative;
 }
 
-.menu-toggle {
+.menu-toggle,
+.theme-toggle {
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 999px;
-  padding: 9px 14px;
   background: transparent;
   color: white;
   font: inherit;
   font-weight: 800;
   cursor: pointer;
+}
+
+.menu-toggle {
+  padding: 9px 14px;
+}
+
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 1.2rem;
 }
 
 .nav-menu {
@@ -131,7 +165,12 @@ h2 {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
   font-weight: 700;
+  text-align: left;
+  cursor: pointer;
 }
 
 .nav-menu a:hover {
@@ -194,10 +233,22 @@ h2 {
   font-weight: 700;
 }
 
-.tool-section,
-.collections-overview {
+.home-dashboard {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 28px;
   padding: 28px 0;
   border-top: 1px solid var(--line);
+}
+
+.tool-section {
+  align-self: start;
+  position: sticky;
+  top: 18px;
+}
+
+.collections-overview {
+  min-width: 0;
 }
 
 .museum-section {
@@ -260,6 +311,40 @@ h2 {
 .quick-actions,
 .tool-grid {
   margin-top: 22px;
+}
+
+.tool-list {
+  display: grid;
+  gap: 10px;
+}
+
+.tool-row {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 8px 12px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.tool-row span {
+  grid-row: span 2;
+  color: var(--red);
+  font-weight: 800;
+}
+
+.tool-row strong {
+  line-height: 1.15;
+}
+
+.tool-row small {
+  color: var(--muted);
+}
+
+.tool-row:hover {
+  border-color: var(--red);
 }
 
 .route-card,
@@ -431,7 +516,7 @@ h2 {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #e7e1d5;
+  background: var(--image-bg);
   color: var(--muted);
   font-weight: 800;
   text-align: center;
@@ -621,9 +706,14 @@ h2 {
 @media (max-width: 760px) {
   .topbar,
   .home-hero,
+  .home-dashboard,
   .wiki-layout {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .tool-section {
+    position: static;
   }
 
   .nav-menu {
@@ -637,7 +727,8 @@ h2 {
   .vehicle-grid,
   .pilot-grid,
   .founder-grid,
-  .quick-actions {
+  .quick-actions,
+  .tool-grid {
     grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
   }
 
