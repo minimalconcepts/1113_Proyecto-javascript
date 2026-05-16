@@ -143,31 +143,79 @@ h2 {
   padding: 34px 0 56px;
 }
 
+.home-hero,
 .hero-panel {
   min-height: 250px;
-  display: grid;
-  align-content: end;
   padding: 34px 0;
 }
 
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  gap: 28px;
+  align-items: end;
+}
+
+.hero-panel {
+  display: grid;
+  align-content: end;
+}
+
 .hero-panel p,
+.hero-copy p,
 .room-header p {
   max-width: 680px;
   color: var(--muted);
 }
 
-.museum-section {
-  padding: 30px 0;
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stats-panel article {
+  min-height: 96px;
+  display: grid;
+  align-content: end;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.stats-panel strong {
+  font-size: 1.7rem;
+}
+
+.stats-panel span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tool-section,
+.collections-overview {
+  padding: 28px 0;
   border-top: 1px solid var(--line);
+}
+
+.museum-section {
+  padding: 22px 0;
 }
 
 .section-heading {
   margin-bottom: 16px;
 }
 
+.section-heading.compact {
+  margin-bottom: 14px;
+}
+
 .route-grid,
 .vehicle-grid,
 .pilot-grid,
+.founder-grid,
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 210px));
@@ -179,6 +227,7 @@ h2 {
 .route-card,
 .vehicle-card,
 .pilot-card,
+.founder-card,
 .action-card,
 .room-header,
 .wiki-entry {
@@ -282,6 +331,28 @@ h2 {
   background: var(--surface);
   color: var(--ink);
   cursor: pointer;
+}
+
+.room-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: -12px 0 28px;
+}
+
+.room-tabs a {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.room-tabs a.is-active {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
 }
 
 /* === Tarjetas de vehiculos === */
@@ -443,17 +514,21 @@ h2 {
 }
 
 /* === Pilotos === */
-.pilot-card {
+.pilot-card,
+.founder-card {
   min-height: 185px;
   padding: 16px;
 }
 
-.pilot-card h3 {
+.pilot-card h3,
+.founder-card h3 {
   margin-bottom: 8px;
 }
 
 .pilot-card p,
-.pilot-card small {
+.pilot-card small,
+.founder-card p,
+.founder-card dd {
   color: var(--muted);
 }
 
@@ -463,11 +538,35 @@ h2 {
   font-weight: 800;
 }
 
+/* === Creadores de marcas === */
+.founder-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.founder-card dl div {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 8px;
+}
+
+.founder-card dt {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.founder-card dd {
+  margin: 0;
+}
+
 /* === Responsive === */
 @media (max-width: 760px) {
   .topbar,
+  .home-hero,
   .wiki-layout {
     display: grid;
+    grid-template-columns: 1fr;
   }
 
   .nav-menu {
@@ -480,11 +579,16 @@ h2 {
   .route-grid,
   .vehicle-grid,
   .pilot-grid,
+  .founder-grid,
   .quick-actions {
     grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
   }
 
   .random-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-panel {
     grid-template-columns: 1fr;
   }
 }

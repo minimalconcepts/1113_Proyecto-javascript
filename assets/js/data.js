@@ -43,6 +43,14 @@ window.MUSEUM_DATA = {
       routes: [
         { path: "/pilotos", label: "Pilotos famosos" }
       ]
+    },
+    {
+      id: "fundadores",
+      title: "Fundadores",
+      description: "Creadores y figuras clave detras de marcas historicas.",
+      routes: [
+        { path: "/fundadores", label: "Creadores de marcas" }
+      ]
     }
   ],
 
@@ -267,6 +275,58 @@ window.MUSEUM_DATA = {
       area: "Aviacion",
       highlight: "Pionera de la aviacion mundial.",
       description: "Recordada por sus vuelos historicos y por abrir camino a nuevas generaciones de aviadores."
+    }
+  ],
+
+  founders: [
+    {
+      name: "Enzo Ferrari",
+      brand: "Ferrari",
+      area: "Autos",
+      year: "1947",
+      description: "Fundador de Ferrari, una de las marcas mas reconocidas por su historia en competicion y superdeportivos."
+    },
+    {
+      name: "Ferruccio Lamborghini",
+      brand: "Lamborghini",
+      area: "Autos",
+      year: "1963",
+      description: "Creador de Automobili Lamborghini, marca italiana famosa por sus deportivos radicales y diseno agresivo."
+    },
+    {
+      name: "Horacio Pagani",
+      brand: "Pagani",
+      area: "Autos",
+      year: "1992",
+      description: "Fundador de Pagani Automobili, conocida por hyper cars artesanales con fibra de carbono y gran detalle artistico."
+    },
+    {
+      name: "Soichiro Honda",
+      brand: "Honda",
+      area: "Motos y autos",
+      year: "1948",
+      description: "Fundador de Honda Motor Company, una marca clave en motocicletas, automoviles y competicion."
+    },
+    {
+      name: "Michio Suzuki",
+      brand: "Suzuki",
+      area: "Motos",
+      year: "1909",
+      description: "Fundador de Suzuki, empresa que comenzo en telares y evoluciono hasta motos, autos y competicion."
+    },
+    {
+      name: "William Boeing",
+      brand: "Boeing",
+      area: "Aviones",
+      year: "1916",
+      description: "Fundador de Boeing, una de las companias aeronauticas mas influyentes en aviacion comercial y militar."
+    },
+    {
+      name: "Henri Ziegler",
+      brand: "Airbus",
+      area: "Aviones",
+      year: "1970",
+      description: "Figura clave en la creacion de Airbus, consorcio europeo que transformo la aviacion comercial moderna."
     }
   ]
 };

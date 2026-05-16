@@ -44,6 +44,11 @@ function renderApp() {
     return;
   }
 
+  if (path === "/fundadores") {
+    renderFounders();
+    return;
+  }
+
   if (path.startsWith("/wiki/")) {
     renderWikiDetail(path);
     return;
@@ -60,19 +65,43 @@ function renderApp() {
 }
 
 function renderHome() {
+  const stats = getMuseumStats();
+
   app.innerHTML = `
-    <section class="hero-panel">
-      <p class="eyebrow">Wiki museo 1113</p>
-      <h1>Explora autos, motos y aviones por salas.</h1>
-      <p>Proyecto hecho con HTML, CSS y JavaScript. Las rutas funcionan desde JavaScript usando hash.</p>
-      <div class="quick-actions">
-        <a class="action-card" href="#/random"><span>Descubrir</span><strong>Randomizador</strong></a>
-        <a class="action-card" href="#/favoritos"><span>Guardar</span><strong>Favoritos</strong></a>
-        <a class="action-card" href="#/pilotos"><span>Historia</span><strong>Pilotos famosos</strong></a>
+    <section class="home-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Wiki museo 1113</p>
+        <h1>Explora maquinas por salas, historia y categorias.</h1>
+        <p>Proyecto hecho con HTML, CSS y JavaScript. Usa el menu para navegar o entra directo por las colecciones.</p>
+      </div>
+
+      <div class="stats-panel" aria-label="Resumen del museo">
+        <article><strong>${stats.rooms}</strong><span>Salas</span></article>
+        <article><strong>${stats.items}</strong><span>Piezas</span></article>
+        <article><strong>${stats.pilots}</strong><span>Pilotos</span></article>
       </div>
     </section>
 
-    ${window.MUSEUM_DATA.sections.map(renderSection).join("")}
+    <section class="tool-section">
+      <div class="section-heading compact">
+        <p class="eyebrow">Herramientas</p>
+        <h2>Aprende y guarda lo importante</h2>
+      </div>
+      <div class="quick-actions">
+        <a class="action-card" href="#/random"><span>Descubrir</span><strong>Randomizador</strong><small>Elige una pieza al azar.</small></a>
+        <a class="action-card" href="#/favoritos"><span>Guardar</span><strong>Favoritos</strong><small>Revisa tu coleccion personal.</small></a>
+        <a class="action-card" href="#/pilotos"><span>Historia</span><strong>Pilotos famosos</strong><small>Conoce figuras importantes.</small></a>
+        <a class="action-card" href="#/fundadores"><span>Marcas</span><strong>Creadores</strong><small>Aprende quien fundo cada marca.</small></a>
+      </div>
+    </section>
+
+    <section class="collections-overview">
+      <div class="section-heading compact">
+        <p class="eyebrow">Colecciones</p>
+        <h2>Salas principales</h2>
+      </div>
+      ${window.MUSEUM_DATA.sections.filter((section) => !["pilotos", "fundadores"].includes(section.id)).map(renderSection).join("")}
+    </section>
   `;
 }
 
@@ -100,6 +129,8 @@ function renderRouteCard(route) {
 }
 
 function renderRoom(route) {
+  const relatedRoutes = getRoutesByArea(route.area);
+
   app.innerHTML = `
     <section class="room-header ${route.area.toLowerCase()}">
       <a class="back-link" href="#/">Regresar</a>
@@ -108,6 +139,14 @@ function renderRoom(route) {
       <p>${route.description}</p>
       <small>Carpeta de imagenes: ${route.folder}</small>
     </section>
+
+    <nav class="room-tabs" aria-label="Salas relacionadas">
+      ${relatedRoutes.map((relatedRoute) => `
+        <a class="${relatedRoute.path === getPathByRoute(route) ? "is-active" : ""}" href="#${relatedRoute.path}">
+          ${relatedRoute.label}
+        </a>
+      `).join("")}
+    </nav>
 
     <section class="vehicle-section">
       <div class="section-heading">
@@ -269,6 +308,41 @@ function renderPilots() {
   `;
 }
 
+function renderFounders() {
+  const founders = window.MUSEUM_DATA.founders || [];
+
+  app.innerHTML = `
+    <section class="room-header">
+      <a class="back-link" href="#/">Regresar</a>
+      <p class="eyebrow">Historia de marcas</p>
+      <h1>Creadores de marcas</h1>
+      <p>Un apartado para conocer a las personas y figuras clave detras de marcas importantes de autos, motos y aviones.</p>
+    </section>
+
+    <div class="founder-grid">
+      ${founders.map(renderFounderCard).join("")}
+    </div>
+  `;
+}
+
+function getMuseumStats() {
+  return {
+    rooms: Object.keys(window.MUSEUM_DATA.routes).length,
+    items: getAllItems().length,
+    pilots: (window.MUSEUM_DATA.pilots || []).length
+  };
+}
+
+function getRoutesByArea(area) {
+  const section = window.MUSEUM_DATA.sections.find((candidate) => candidate.title === area);
+  return section ? section.routes : [];
+}
+
+function getPathByRoute(route) {
+  const entry = Object.entries(window.MUSEUM_DATA.routes).find(([, candidate]) => candidate === route);
+  return entry ? entry[0] : "";
+}
+
 function renderPilotCard(pilot) {
   return `
     <article class="pilot-card">
@@ -276,6 +350,20 @@ function renderPilotCard(pilot) {
       <h3>${pilot.name}</h3>
       <p>${pilot.description}</p>
       <small>${pilot.highlight}</small>
+    </article>
+  `;
+}
+
+function renderFounderCard(founder) {
+  return `
+    <article class="founder-card">
+      <p class="eyebrow">${founder.area}</p>
+      <h3>${founder.name}</h3>
+      <dl>
+        <div><dt>Marca</dt><dd>${founder.brand}</dd></div>
+        <div><dt>Anio</dt><dd>${founder.year}</dd></div>
+      </dl>
+      <p>${founder.description}</p>
     </article>
   `;
 }
