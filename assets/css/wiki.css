@@ -1,0 +1,277 @@
+/* =========================================================
+   Car Dealer Motorsport
+   Estilos base para la wiki museo hecha con HTML, CSS y JS.
+   ========================================================= */
+
+:root {
+  --bg: #f3f0ea;
+  --surface: #ffffff;
+  --ink: #1d1d1d;
+  --muted: #68645d;
+  --line: #d8d0c2;
+  --red: #b7192c;
+  --gold: #f5c04d;
+  --green: #2f7d4f;
+  --blue: #2c68a0;
+  --shadow: 0 14px 34px rgba(29, 29, 29, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-header {
+  background:
+    linear-gradient(110deg, rgba(20, 20, 20, 0.92), rgba(61, 28, 22, 0.8)),
+    url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=80") center/cover;
+  color: white;
+}
+
+.topbar {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.brand {
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-links a,
+.back-link {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-weight: 700;
+}
+
+.app-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 56px;
+}
+
+.hero-panel {
+  min-height: 270px;
+  display: grid;
+  align-content: end;
+  padding: 34px 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 760px;
+  margin-bottom: 16px;
+  font-size: clamp(2.3rem, 6vw, 4.6rem);
+  line-height: 0.98;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+}
+
+.hero-panel p:not(.eyebrow),
+.room-header p {
+  max-width: 680px;
+  color: var(--muted);
+}
+
+.museum-section {
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section-heading {
+  margin-bottom: 16px;
+}
+
+.route-grid,
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 210px));
+  justify-content: start;
+  gap: 14px;
+}
+
+.route-card {
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.route-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--red);
+}
+
+.route-card span {
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.route-card strong {
+  font-size: 1.12rem;
+}
+
+.room-header {
+  margin-bottom: 30px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--red);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.room-header.autos {
+  border-left-color: var(--red);
+}
+
+.room-header.motos {
+  border-left-color: var(--green);
+}
+
+.room-header.aviones {
+  border-left-color: var(--blue);
+}
+
+.room-header .back-link {
+  display: inline-flex;
+  margin-bottom: 20px;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.room-header small {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.vehicle-section {
+  padding-top: 6px;
+}
+
+.vehicle-card {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.image-frame {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #e7e1d5;
+  color: var(--muted);
+  font-weight: 800;
+  text-align: center;
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.missing-image {
+  padding: 12px;
+}
+
+.vehicle-info {
+  padding: 12px;
+}
+
+.vehicle-info h3 {
+  margin-bottom: 7px;
+  font-size: 0.98rem;
+}
+
+.vehicle-info p {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.vehicle-info strong {
+  color: var(--ink);
+}
+
+.empty-state {
+  max-width: 620px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.back-link.dark {
+  display: inline-flex;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    display: grid;
+  }
+
+  .route-grid,
+  .vehicle-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  }
+}

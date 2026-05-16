@@ -1,63 +1,99 @@
 # Car Dealer Motorsport
 
 ## Descripcion
-Proyecto educativo desarrollado por estudiantes de Mecatronica 1113 para practicar los fundamentos de desarrollo web con `HTML`, `CSS` y `JavaScript`.
 
-La aplicacion representa un catalogo de autos deportivos y de alta gama, permitiendo mostrar vehiculos en pantalla y aplicar filtros basicos segun las preferencias del usuario.
+Proyecto educativo desarrollado por estudiantes de Mecatronica 1113 para practicar desarrollo web con `HTML`, `CSS` y `JavaScript`.
 
-## Objetivo
-Aplicar conceptos iniciales de programacion web mediante la construccion de una interfaz simple, visual y funcional.
+La aplicacion funciona como una wiki tipo museo para explorar:
 
-Este proyecto busca reforzar:
-- estructura de paginas con `HTML`
-- estilos con `CSS`
-- logica e interactividad con `JavaScript`
-- trabajo colaborativo con `Git` y `GitHub`
+- autos
+- motos
+- aviones
 
-## Funcionalidades Del MVP
-- visualizacion de autos en un catalogo
-- renderizado dinamico de datos desde JavaScript
-- filtros basicos por marca y tipo
-- visualizacion de imagen, modelo y precio
-- mensaje cuando no existan resultados
+Cada sala se maneja con rutas hechas en JavaScript.
 
 ## Tecnologias Utilizadas
+
 - HTML5
 - CSS3
 - JavaScript
 - Git
 - GitHub
 - Visual Studio Code
+- Live Server
 
-## Alcance Actual
-Este proyecto corresponde a una primera etapa de aprendizaje.
+## Importante
 
-Por ahora el objetivo NO es construir una plataforma completa de concesionario, sino una base solida para practicar:
+Este proyecto no usa Java.
+
+Este proyecto no usa `javac`.
+
+Este proyecto no necesita backend.
+
+Las rutas funcionan con JavaScript usando hash:
+
+```text
+#/autos/deportivos
+#/motos/gp
+#/aviones/combate
+```
+
+## Como prender el proyecto
+
+1. Abrir la carpeta en VS Code.
+2. Abrir `index.html`.
+3. Clic derecho.
+4. Seleccionar `Open with Live Server`.
+
+## Estructura principal
+
+```text
+index.html
+assets/
+├── css/
+│   └── styles.css
+├── js/
+│   ├── data.js
+│   ├── router.js
+│   └── app.js
+└── images/
+    ├── autos/
+    ├── motos/
+    └── aviones/
+docs/
+└── guia/
+```
+
+## Guias
+
+Las guias estan en:
+
+```text
+docs/guia/
+```
+
+Guias principales:
+
+- `GUIA_LIVE_SERVER.md`
+- `GUIA_RUTAS_JAVASCRIPT.md`
+- `GUIA_IMAGENES.md`
+
+## Objetivo
+
+Practicar:
+
+- estructura de paginas con HTML
+- estilos con CSS
+- rutas con JavaScript
 - arrays y objetos
 - funciones
-- eventos
-- manipulacion del DOM
-- renderizado de informacion en pantalla
+- renderizado dinamico
+- organizacion de imagenes
+- trabajo colaborativo con Git y GitHub
 
 ## Integrantes
+
 - Oscar Garcia
 - Gelves
 - Juan Gamboa
 - Angel Arias
-
----
-
-by el profe Henry O. Kyrbot: con carino, para que aprendan a programar con cabeza, corazon y sin miedo a equivocarse
-
----
-
-## Mensaje especial para el Sr. Tapias
-
-Sr. Tapias, hay que reconocerle algo: la perseverancia. Pocos logran seguir intentándolo con tanta fe después de tantos... resultados creativos. Eso habla bien de usted, en serio.
-
-Todavía hay margen de mejora. Bastante margen, para ser honestos. Pero el potencial está, enterrado ahí en algún lugar, esperando que usted lo encuentre. Quizás hoy sea el día. O mañana. O algún día de este año.
-
-Siga así, Sr. Tapias. El que la sigue... a veces la consigue.
-
-Con fe renovada,
-El profe Henry

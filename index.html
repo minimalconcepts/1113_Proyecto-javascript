@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Car Dealer Motorsport</title>
+  <link rel="stylesheet" href="assets/css/wiki.css" />
+</head>
+<body>
+  <!-- Encabezado principal: contiene marca, navegacion y acceso a las rutas JS. -->
+  <header class="app-header">
+    <nav class="topbar" aria-label="Navegacion principal">
+      <a class="brand" href="#/">Car Dealer Motorsport</a>
+      <div class="nav-links">
+        <a href="#/autos/deportivos">Autos</a>
+        <a href="#/motos/gp">Motos</a>
+        <a href="#/aviones/comerciales">Aviones</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Contenedor de la app: JavaScript renderiza aqui cada ruta. -->
+  <main id="app" class="app-shell" aria-live="polite"></main>
+
+  <!-- Datos, router y render principal de la aplicacion. -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/router.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
