@@ -66,7 +66,7 @@ window.MUSEUM_DATA = {
           type: "Muscle / calle",
           year: "2024",
           detail: "$5,000,000",
-          image: "assets/images/autos/calle/ford-super-cobra-jet.jpg"
+          image: "assets/images/autos/calle/Ford-Mustang-Super-Cobra-Jet-1800.jpg"
         }
       ]
     },
@@ -81,14 +81,14 @@ window.MUSEUM_DATA = {
           type: "Deportivo",
           year: "2024",
           detail: "$320,000",
-          image: "assets/images/autos/deportivos/aston-martin-db12.jpg"
+          image: "assets/images/autos/deportivos/Aston-Martin-DB12.jpg"
         },
         {
           name: "Audi R8 V10",
           type: "Deportivo",
           year: "2021",
           detail: "$210,000",
-          image: "assets/images/autos/deportivos/audi-r8-v10.jpg"
+          image: "assets/images/autos/deportivos/Audi-R8-V10.jpg"
         }
       ]
     },
@@ -103,29 +103,36 @@ window.MUSEUM_DATA = {
           type: "Superdeportivo",
           year: "2024",
           detail: "$920,000",
-          image: "assets/images/autos/superdeportivos/aston-martin-valhalla.jpg"
+          image: "assets/images/autos/superdeportivos/Aston-Martin-Valhalla.jpg"
         },
         {
           name: "Zenvo TSR-S",
           type: "Superdeportivo",
           year: "2024",
           detail: "$1,800,000",
-          image: "assets/images/autos/superdeportivos/zenvo-tsr-s.jpg"
+          image: "assets/images/autos/superdeportivos/Zenvo-TSR-S.jpg"
         },
         {
           name: "Lamborghini Murcielago SV",
           type: "Superdeportivo",
           year: "2010",
           detail: "$1,000,000",
-          image: "assets/images/autos/superdeportivos/lamborghini-murcielago-sv.jpg"
+          image: "assets/images/autos/superdeportivos/Murcielago-SV.jpg"
         },
         {
           name: "Lamborghini Reventon",
           type: "Superdeportivo",
           year: "2008",
           detail: "$2,000,000",
-          image: "assets/images/autos/superdeportivos/lamborghini-reventon.jpg"
-        }
+          image: "assets/images/autos/superdeportivos/Lamborghini-Reventon.jpg"
+        },
+         {
+          name: "ASTON MARTIN VULCAN",
+          type: "Superdeportivo",
+          year: "2008",
+          detail: "$2,000,000",
+          image: "assets/images/autos/superdeportivos/ASTON-MARTIN-VULCAN.jpg"
+        },
       ]
     },
     "/autos/hyper-cars": {
@@ -139,28 +146,28 @@ window.MUSEUM_DATA = {
           type: "Hyper car",
           year: "2016",
           detail: "$3,500,000",
-          image: "assets/images/autos/hyper-cars/bugatti-beyron-super-sport.jpg"
+          image: "assets/images/autos/hyper-cars/Bugatti-beyron-super-sport.jpg"
         },
         {
           name: "Aston Martin Valkyrie",
           type: "Hyper car",
           year: "2021",
           detail: "$6,500,000",
-          image: "assets/images/autos/hyper-cars/aston-martin-valkyrie.jpg"
+          image: "assets/images/autos/hyper-cars/Aston-Martin-Valrkerye-AMR-PRO.jpg"
         },
         {
           name: "Koenigsegg Jesko Attack",
           type: "Hyper car",
           year: "2024",
           detail: "$3,000,000",
-          image: "assets/images/autos/hyper-cars/koenigsegg-jesko-attack.jpg"
+          image: "assets/images/autos/hyper-cars/Koenigsegg-Jesko-Attack.jpg"
         },
         {
           name: "Pagani Zonda Lewis Hamilton",
           type: "Hyper car",
           year: "2014",
           detail: "$11,500,000",
-          image: "assets/images/autos/hyper-cars/pagani-zonda-lewis-hamilton.jpg"
+          image: "assets/images/autos/hyper-cars/Pagani-Zonda-Lewis-Hamilton.jpg"
         }
       ]
     },
@@ -169,14 +176,29 @@ window.MUSEUM_DATA = {
       title: "GT3",
       description: "Autos preparados para competicion de gran turismo.",
       folder: "assets/images/autos/gt3",
-      items: []
+      items: [
+          {
+          name: "Aston-Martin-Vantage-GT3",
+          type: "GT3",
+          year: "2016",
+          detail: "$3,500,000",
+          image: "assets/images/autos/gt3/Aston-Martin-Vantage-GT3.jpg"
+        },
+      ]
     },
     "/autos/concept-cars": {
       area: "Autos",
       title: "Concept cars",
       description: "Prototipos y estudios de diseno automotriz.",
       folder: "assets/images/autos/concept-cars",
-      items: []
+      items: [  
+        {
+          name: "Saleen-S5S-Raptor",
+          type: "Concept cars",
+          year: "2016",
+          detail: "$3,500,000",
+          image: "assets/images/autos/concept-cars/Saleen-S5S-Raptor.jpg"
+        },]
     },
     "/motos/calle": {
       area: "Motos",
@@ -190,7 +212,15 @@ window.MUSEUM_DATA = {
       title: "Motos de alto cilindraje",
       description: "Motos premium de alto rendimiento.",
       folder: "assets/images/motos/alto-cilindraje",
-      items: []
+      items: [
+           {
+          name: "Honda-CBX-1000",
+          type: "alto cilindraje ",
+          year: "2016",
+          detail: "$3,500,000",
+          image: "assets/images/motos/alto-cilindraje/Honda-CBX-1000.jpg"
+        },
+      ]
     },
     "/motos/gp": {
       area: "Motos",
