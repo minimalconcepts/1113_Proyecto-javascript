@@ -243,12 +243,19 @@ window.MUSEUM_DATA = {
       folder: "assets/images/motos/gp",
       items: [
         {
-          name: "Suzuki GSX-RR",
+          name: "Susuki-Hayabusa-supercharged",
           type: "Motocicleta / GP",
           year: "2020",
           detail: "Suzuki Ecstar",
-          image: "assets/images/motos/gp/suzuki.jpg"
-        }
+          image: "assets/images/motos/gp/Susuki-Hayabusa-supercharged.jpg"
+        },
+        {
+          name: "Yamaha-YZR-M1-Movistar-Valentino Rossi",
+          type: "Motocicleta / GP",
+          year: "2020",
+          detail: "Yamaha M1",
+          image: "assets/images/motos/gp/Yamaha-YZR-M1-Movistar-Valentino Rossi.jpg"
+        },
       ]
     },
     "/aviones/comerciales": {
@@ -262,7 +269,7 @@ window.MUSEUM_DATA = {
           type: "Avion de pasajeros",
           year: "2005",
           detail: "Aerolineras comerciales",
-          image: "assets/images/aviones/comerciales/Airbus-A380.jpg"
+          image: "assets/images/aviones/comerciales/Airbus-A-380.jpg"
         }
       ]
     },
@@ -273,11 +280,11 @@ window.MUSEUM_DATA = {
       folder: "assets/images/aviones/combate",
       items: [
         {
-          name: "F-35 Lightning II",
+          name: "Lockhed-Martin-Lighthing-F-35-Raptor",
           type: "Caza multiusos",
           year: "2010",
           detail: "Servicio militar moderno",
-          image: "assets/images/aviones/combate/F-35.jpg"
+          image: "assets/images/aviones/combate/Lockhed-Martin-Lighthing-F-35-Raptor.jpg"
         }
       ]
     }
