@@ -205,7 +205,14 @@ window.MUSEUM_DATA = {
       title: "Motos de calle",
       description: "Motocicletas para movilidad diaria y carretera.",
       folder: "assets/images/motos/calle",
-      items: []
+      items: [
+        {
+          name: "TVS-Apache-200-4V",
+          type: "calle",
+          year: "2020",
+          image: "assets/images/motos/calle/TVS-Apache-200-4V.jpg"
+        }
+      ]
     },
     "/motos/alto-cilindraje": {
       area: "Motos",
@@ -219,6 +226,13 @@ window.MUSEUM_DATA = {
           year: "2016",
           detail: "$3,500,000",
           image: "assets/images/motos/alto-cilindraje/Honda-CBX-1000.jpg"
+        },
+        {
+          name: "Susuki-Hayabusa-supercharged",
+          type: "alto cilindraje",
+          year: "2016",
+          detail: "$3,500,000",
+          image: "assets/images/motos/alto-cilindraje/Susuki-Hayabusa-supercharged.jpg"
         },
       ]
     },
