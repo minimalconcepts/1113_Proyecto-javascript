@@ -104,6 +104,7 @@ h2 {
 }
 
 .topbar-actions {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -142,6 +143,28 @@ h2 {
   place-items: center;
   padding: 0;
   font-size: 1.2rem;
+}
+
+.theme-click-hint {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  padding: 4px 8px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid #ff8a1c;
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(255, 138, 28, 0.22);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.theme-click-hint:empty {
+  display: none;
 }
 
 .nav-menu {
@@ -214,6 +237,158 @@ h2 {
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.3;
+}
+
+.theme-easter-egg {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.theme-easter-egg-card {
+  position: relative;
+  width: min(340px, 100%);
+  padding: 30px 24px 26px;
+  background: color-mix(in srgb, var(--surface), #ff8a1c 4%);
+  color: var(--ink);
+  border: 2px solid #ff8a1c;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(255, 138, 28, 0.34), var(--shadow);
+  text-align: center;
+  animation: themeEasterEggPop 0.22s ease-out;
+}
+
+.theme-easter-egg-card h2 {
+  margin: 0 0 8px;
+  color: #ff8a1c;
+  font-size: 1.45rem;
+  letter-spacing: 0;
+}
+
+.theme-easter-egg-card p {
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.theme-easter-egg-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid currentColor;
+  color: #ff8a1c;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.theme-easter-egg-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.easter-egg-page {
+  border-color: #ff8a1c;
+  box-shadow: 0 0 28px rgba(255, 138, 28, 0.18), var(--shadow);
+}
+
+.easter-age-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.easter-age-actions .primary-button,
+.easter-age-actions .secondary-button {
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.easter-age-actions .primary-button {
+  border-color: #ff8a1c;
+}
+
+.easter-poster {
+  min-height: 360px;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  padding: clamp(22px, 5vw, 44px);
+  overflow: hidden;
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(255, 138, 28, 0.28), transparent 32%),
+    linear-gradient(180deg, #090909, #15110d 62%, #050505);
+  color: white;
+  border: 1px solid #ff8a1c;
+  border-radius: 8px;
+  box-shadow: 0 0 36px rgba(255, 138, 28, 0.22), var(--shadow);
+}
+
+.easter-poster::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border: 1px solid rgba(255, 138, 28, 0.46);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.easter-poster::after {
+  content: "";
+  position: absolute;
+  right: 12%;
+  bottom: 24%;
+  width: min(340px, 58%);
+  height: 3px;
+  background: #ff8a1c;
+  box-shadow: 0 0 24px rgba(255, 138, 28, 0.86);
+  transform: skewX(-24deg);
+}
+
+.easter-poster span,
+.easter-poster small {
+  position: relative;
+  z-index: 1;
+  color: #ff8a1c;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.easter-poster strong {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  font-size: clamp(2.2rem, 7vw, 5.4rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+@keyframes themeEasterEggPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* === Layout general === */

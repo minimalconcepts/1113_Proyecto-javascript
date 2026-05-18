@@ -27,9 +27,87 @@ function applyTheme(theme) {
 applyTheme(localStorage.getItem(THEME_KEY) || "light");
 
 if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
+  let themeClickCount = 0;
+  let themeClickTimer;
+  const themeClickHint = document.createElement("span");
+  themeClickHint.className = "theme-click-hint";
+  themeClickHint.setAttribute("aria-live", "polite");
+  themeToggle.insertAdjacentElement("afterend", themeClickHint);
+
+  const updateThemeClickHint = () => {
+    const clicksLeft = 15 - themeClickCount;
+    themeClickHint.textContent = themeClickCount >= 10 && clicksLeft > 0
+      ? `Faltan ${clicksLeft} clicks...`
+      : "";
+  };
+
+  const resetThemeClickCounter = () => {
+    themeClickCount = 0;
+    clearTimeout(themeClickTimer);
+    updateThemeClickHint();
+  };
+
+  const openThemeEasterEgg = () => {
+    const currentEasterEgg = document.querySelector(".theme-easter-egg");
+
+    if (currentEasterEgg) {
+      currentEasterEgg.remove();
+    }
+
+    let canCloseFromOutside = false;
+    const easterEgg = document.createElement("div");
+    easterEgg.className = "theme-easter-egg";
+    easterEgg.setAttribute("role", "dialog");
+    easterEgg.setAttribute("aria-modal", "true");
+    easterEgg.setAttribute("aria-labelledby", "theme-easter-egg-title");
+    easterEgg.innerHTML = `
+      <div class="theme-easter-egg-card">
+        <button class="theme-easter-egg-close" type="button" aria-label="Cerrar Easter Egg">&times;</button>
+        <h2 id="theme-easter-egg-title">EASTER EGG</h2>
+        <p>espera.......</p>
+        <a class="theme-easter-egg-link" href="#/easter-egg">entrar</a>
+      </div>
+    `;
+
+    const closeEasterEgg = () => {
+      easterEgg.remove();
+    };
+
+    easterEgg.addEventListener("click", (event) => {
+      if (event.target.closest(".theme-easter-egg-close, .theme-easter-egg-link")) {
+        closeEasterEgg();
+        return;
+      }
+
+      if (event.target === easterEgg && canCloseFromOutside) {
+        closeEasterEgg();
+      }
+    });
+
+    document.body.appendChild(easterEgg);
+    easterEgg.querySelector(".theme-easter-egg-close").focus();
+    setTimeout(() => {
+      canCloseFromOutside = true;
+    }, 250);
+  };
+
+  themeToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
     const currentTheme = document.documentElement.dataset.theme;
     applyTheme(currentTheme === "dark" ? "light" : "dark");
+
+    // Cuenta clics consecutivos del boton de tema sin alterar su comportamiento.
+    themeClickCount += 1;
+    clearTimeout(themeClickTimer);
+    updateThemeClickHint();
+
+    if (themeClickCount >= 15) {
+      resetThemeClickCounter();
+      openThemeEasterEgg();
+      return;
+    }
+
+    themeClickTimer = setTimeout(resetThemeClickCounter, 3000);
   });
 }
 
@@ -72,6 +150,11 @@ function renderApp() {
 
   if (path === "/fundadores") {
     renderFounders();
+    return;
+  }
+
+  if (path === "/easter-egg") {
+    renderEasterEggPage();
     return;
   }
 
@@ -532,6 +615,37 @@ function renderFounders() {
   `;
 }
 
+function renderEasterEggPage() {
+  app.innerHTML = `
+    <section class="room-header easter-egg-page">
+      <a class="back-link" href="#/">Regresar</a>
+      <p class="eyebrow">Ruta secreta</p>
+      <h1>¿Tienes 18 años?</h1>
+      <div class="easter-age-actions" aria-label="Verificacion de edad">
+        <button class="primary-button" type="button" onclick="showEasterEggContent()">Sí</button>
+        <button class="secondary-button" type="button" onclick="window.AppRouter.navigate('/')">No</button>
+      </div>
+    </section>
+  `;
+}
+
+function showEasterEggContent() {
+  app.innerHTML = `
+    <section class="room-header easter-egg-page">
+      <a class="back-link" href="#/">Regresar</a>
+      <p class="eyebrow">Ruta secreta</p>
+      <h1>Bienvenido al Easter Egg</h1>
+      <p>Más contenido próximamente...</p>
+    </section>
+
+    <section class="easter-poster" aria-label="Afiche promocional placeholder">
+      <span>Exclusive Access</span>
+      <strong>Premium Content</strong>
+      <small>Coming Soon</small>
+    </section>
+  `;
+}
+
 function getMuseumStats() {
   return {
     rooms: Object.keys(window.MUSEUM_DATA.routes).length,
@@ -640,5 +754,6 @@ function renderNotFound(path) {
 window.toggleFavorite = toggleFavorite;
 window.renderRandomizer = renderRandomizer;
 window.renderComparison = renderComparison;
+window.showEasterEggContent = showEasterEggContent;
 window.AppRouter.onChange(renderApp);
 renderApp();
