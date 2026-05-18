@@ -52,6 +52,16 @@ imagen 1.jpeg
 
 En `assets/js/data.js`, cada pieza tiene una propiedad `image`.
 
+## Imagen principal de la wiki
+
+La portada del inicio usa esta imagen:
+
+```text
+assets/images/portada/porsche-911-gt.jpg
+```
+
+Para cambiarla, reemplaza ese archivo por otra foto con el mismo nombre. Si quieres usar otra ruta, cambia el fondo de `.wiki-intro` en `assets/css/styles.css`.
+
 Ejemplo:
 
 ```js
@@ -75,7 +85,7 @@ aspect-ratio: 1 / 1;
 object-fit: cover;
 ```
 
-Eso significa que la imagen se recorta sin deformarse.
+Si aparece `object-fit: contain`, la imagen se acomoda completa dentro del cuadro.
 
 ## Si una imagen no aparece
 

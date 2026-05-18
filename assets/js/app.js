@@ -95,11 +95,19 @@ function renderHome() {
   const recommended = getRandomEntry();
 
   app.innerHTML = `
-    <section class="home-hero">
-      <div class="hero-copy">
+    <section class="wiki-intro">
+      <div class="wiki-intro-content">
+        <p class="eyebrow">Bienvenido a la wiki</p>
+        <h1>Museo digital de autos, motos y aviones.</h1>
+        <p>Explora maquinas legendarias por categorias, guarda tus favoritas y abre cada ficha como una pagina tipo Wikipedia para estudiar su historia.</p>
+      </div>
+    </section>
+
+    <section class="home-summary">
+      <div class="overview-copy">
         <p class="eyebrow">Wiki museo 1113</p>
-        <h1>Explora maquinas por salas, historia y categorias.</h1>
-        <p>Proyecto hecho con HTML, CSS y JavaScript. Usa el menu para navegar o entra directo por las colecciones.</p>
+        <h2>Resumen del museo</h2>
+        <p>Las colecciones estan separadas por salas para que sea facil agregar piezas, imagenes e historias sin desordenar el proyecto.</p>
         ${recommended ? `
           <a class="recommended-link" href="#/wiki/${recommended.slug}">
             <span>Recomendado para aprender</span>
@@ -158,11 +166,14 @@ function renderSection(section) {
 }
 
 function renderRouteCard(route) {
+  const room = window.MUSEUM_DATA.routes[route.path];
+  const itemCount = room ? room.items.length : 0;
+
   return `
     <a class="route-card" href="#${route.path}">
       <span>Sala</span>
       <strong>${route.label}</strong>
-      <small>${route.path}</small>
+      <small>${itemCount} piezas registradas</small>
     </a>
   `;
 }
@@ -236,6 +247,12 @@ function renderWikiDetail(path) {
 
   const { item, roomPath, route } = result;
   const favorite = isFavorite(slug);
+  const relatedItems = route.items
+    .filter((candidate) => createSlug(candidate.name) !== slug)
+    .map((candidate) => ({
+      item: candidate,
+      slug: createSlug(candidate.name)
+    }));
 
   app.innerHTML = `
     <article class="wiki-entry">
@@ -266,19 +283,126 @@ function renderWikiDetail(path) {
         </aside>
 
         <section class="wiki-content">
-          <h2>Historia</h2>
-          <p>${item.history || "Aqui pueden escribir la historia del vehiculo: origen, marca, importancia, tecnologia, competiciones, curiosidades y por que pertenece a esta sala."}</p>
+          <section class="wiki-block main-story">
+            <p class="eyebrow">Historia principal</p>
+            <h2>Origen e importancia</h2>
+            <div class="story-text">
+              ${renderHistory(item.history)}
+            </div>
+          </section>
 
-          <h2>Para aprender</h2>
-          <ul>
-            <li>Identifica a que categoria pertenece.</li>
-            <li>Compara su epoca con otras piezas de la sala.</li>
-            <li>Agrega datos historicos o tecnicos en assets/js/data.js.</li>
-          </ul>
+          <div class="wiki-info-grid">
+            <section class="wiki-block">
+              <p class="eyebrow">Contexto</p>
+              <h3>Por que esta en esta sala</h3>
+              <p>Esta pieza pertenece a ${route.title} por su categoria, epoca, diseno o papel dentro de la cultura del motor.</p>
+            </section>
+
+            <section class="wiki-block">
+              <p class="eyebrow">Para aprender</p>
+              <h3>Puntos clave</h3>
+              ${renderLearning(item.learning)}
+            </section>
+          </div>
+
+          ${renderComparisonPanel(item, route, relatedItems)}
         </section>
       </div>
     </article>
   `;
+}
+
+function renderComparisonPanel(currentItem, route, relatedItems) {
+  if (relatedItems.length === 0) {
+    return `
+      <section class="wiki-block comparison-panel">
+        <p class="eyebrow">Comparador</p>
+        <h3>Piezas de la misma sala</h3>
+        <p>Cuando agregues otra pieza a ${route.title}, aqui aparecera un comparador automatico.</p>
+      </section>
+    `;
+  }
+
+  const firstRelated = relatedItems[0];
+
+  return `
+    <section class="wiki-block comparison-panel">
+      <div class="comparison-heading">
+        <div>
+          <p class="eyebrow">Comparador</p>
+          <h3>Comparar con otra pieza de ${route.title}</h3>
+        </div>
+        <select class="comparison-select" onchange="renderComparison('${createSlug(currentItem.name)}', this.value)" aria-label="Seleccionar pieza para comparar">
+          ${relatedItems.map((entry) => `
+            <option value="${entry.slug}">${entry.item.name}</option>
+          `).join("")}
+        </select>
+      </div>
+      <div id="comparison-result">
+        ${renderComparisonTable(currentItem, firstRelated.item, route)}
+      </div>
+    </section>
+  `;
+}
+
+function renderComparison(currentSlug, relatedSlug) {
+  const currentEntry = findItemBySlug(currentSlug);
+  const relatedEntry = findItemBySlug(relatedSlug);
+  const result = document.getElementById("comparison-result");
+
+  if (!currentEntry || !relatedEntry || !result) {
+    return;
+  }
+
+  result.innerHTML = renderComparisonTable(currentEntry.item, relatedEntry.item, currentEntry.route);
+}
+
+function renderComparisonTable(currentItem, relatedItem, route) {
+  const rows = [
+    { label: "Tipo", key: "type" },
+    { label: "Anio", key: "year" },
+    { label: "Detalle", key: "detail" },
+    { label: "Creador / fabricante", key: "creator", source: "specs" },
+    { label: "Potencia", key: "power", source: "specs" },
+    { label: "Velocidad maxima", key: "topSpeed", source: "specs" },
+    { label: "Records", key: "records", source: "specs" },
+    { label: "Uso principal", key: "mainUse", source: "specs" },
+    { label: "Importancia", key: "importance", source: "specs" }
+  ];
+
+  return `
+    <div class="comparison-table" role="table" aria-label="Comparacion de piezas">
+      <div role="row">
+        <span role="columnheader">Dato</span>
+        <strong role="columnheader">${currentItem.name}</strong>
+        <strong role="columnheader">${relatedItem.name}</strong>
+      </div>
+      ${rows.map((row) => renderComparisonRow(row, currentItem, relatedItem)).join("")}
+      <div role="row">
+        <span role="cell">Sala</span>
+        <span role="cell">${route.title}</span>
+        <span role="cell">${route.title}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderComparisonRow(row, currentItem, relatedItem) {
+  return `
+    <div role="row">
+      <span role="cell">${row.label}</span>
+      <span role="cell">${getComparisonValue(currentItem, row)}</span>
+      <span role="cell">${getComparisonValue(relatedItem, row)}</span>
+    </div>
+  `;
+}
+
+function getComparisonValue(item, row) {
+  const value = row.source === "specs"
+    ? item.specs && item.specs[row.key]
+    : item[row.key];
+
+  return value || "Pendiente";
 }
 
 function renderFavorites() {
@@ -298,6 +422,48 @@ function renderFavorites() {
         ? `<p class="empty-state">Todavia no tienes favoritos. Entra a una sala y presiona el boton Favorito en una tarjeta.</p>`
         : `<div class="vehicle-grid">${favoriteItems.map((entry) => renderVehicleCard(entry.item)).join("")}</div>`
     }
+  `;
+}
+
+function renderHistory(history) {
+  const fallback = "Aqui pueden escribir la historia del vehiculo: origen, marca, importancia, tecnologia, competiciones, curiosidades y por que pertenece a esta sala.";
+
+  if (Array.isArray(history)) {
+    return history.map((paragraph) => `<p>${paragraph}</p>`).join("");
+  }
+
+  return `<p>${history || fallback}</p>`;
+}
+
+function renderLearning(learning) {
+  if (!learning) {
+    return `
+      <ul>
+        <li>Identifica a que categoria pertenece.</li>
+        <li>Compara su epoca con otras piezas de la sala.</li>
+        <li>Agrega datos historicos o tecnicos en assets/js/data.js.</li>
+      </ul>
+    `;
+  }
+
+  return `
+    <div class="learning-content">
+      <p><strong>Nivel:</strong> ${learning.level || "Pendiente"}</p>
+      ${learning.summary ? `<p>${learning.summary}</p>` : ""}
+      ${learning.keyConcepts ? `
+        <div>
+          <strong>Conceptos clave</strong>
+          <ul>${learning.keyConcepts.map((concept) => `<li>${concept}</li>`).join("")}</ul>
+        </div>
+      ` : ""}
+      ${learning.questions ? `
+        <div>
+          <strong>Preguntas para repasar</strong>
+          <ul>${learning.questions.map((question) => `<li>${question}</li>`).join("")}</ul>
+        </div>
+      ` : ""}
+      ${learning.funFact ? `<p><strong>Dato curioso:</strong> ${learning.funFact}</p>` : ""}
+    </div>
   `;
 }
 
@@ -470,5 +636,6 @@ function renderNotFound(path) {
 
 window.toggleFavorite = toggleFavorite;
 window.renderRandomizer = renderRandomizer;
+window.renderComparison = renderComparison;
 window.AppRouter.onChange(renderApp);
 renderApp();
