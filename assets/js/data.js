@@ -173,11 +173,14 @@ window.MUSEUM_DATA = {
           detail: "$920,000",
           image: "assets/images/autos/superdeportivos/Aston-Martin-Valhalla.jpg",
           specs: {
-            ...PENDING_SPECS,
             creator: "Aston Martin",
             power: "Sistema hibrido de alto rendimiento",
             mainUse: "Superdeportivo hibrido para carretera y pista.",
-            importance: "Muestra la transicion de los superdeportivos hacia sistemas hibridos."
+            importance: "Muestra la transicion de los superdeportivos hacia sistemas hibridos.",
+            topSpeed: "350 km/h",
+            records: "bajar de los 6 minutos y 30 segundos en el circuito de Nürburgring Nordschleife.",
+            mainuse: "El Aston Martin Valhalla está diseñado con un enfoque de uso dual: un hiperdeportivo con capacidades brutales para la pista, pero diseñado con la flexibilidad y el confort necesarios para ser totalmente utilizable en carreteras públicas y en el día a día.",
+            importance: "El Aston Martin Valhalla tiene una importancia histórica y estratégica crucial para la marca, marcando el inicio de su era moderna y su transformación tecnológica.",
           },
           learning: LEARNING_BY_AREA.autos
         },
