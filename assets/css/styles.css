@@ -379,6 +379,21 @@ h2 {
   text-transform: uppercase;
 }
 
+.easter-card-grid {
+  margin-top: 14px;
+}
+
+.easter-card .image-frame {
+  background:
+    linear-gradient(135deg, rgba(255, 138, 28, 0.3), transparent 44%),
+    #0d0d0d;
+  color: #ff8a1c;
+}
+
+.easter-card .card-action {
+  color: #ff8a1c;
+}
+
 @keyframes themeEasterEggPop {
   from {
     opacity: 0;

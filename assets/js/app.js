@@ -8,6 +8,46 @@ const THEME_KEY = "carDealerMuseumTheme";
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
+// Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
+const EASTER_EGG_CARDS = [
+  {
+    name: "Exclusive Access",
+    type: "Easter Egg",
+    category: "Premium",
+    status: "Coming Soon",
+    detail: "Premium Collection",
+    image: "assets/images/easter-egg/placeholder-premium-collection.jpg",
+    collaboration: "Private Creator",
+    history: "Afiche placeholder preparado para reemplazar imagen, descripcion y colaboracion cuando el contenido final este listo."
+  },
+  {
+    name: "Hidden Content",
+    type: "Easter Egg",
+    category: "Members Area",
+    status: "Reservado",
+    detail: "Members Area",
+    image: "assets/images/easter-egg/ONLYPORCHE_GT3RS.jpg",
+    collaboration: "Premium Studio",
+    history: "Detalle placeholder integrado al sistema de fichas del museo para mantener la misma navegacion y estructura visual."
+  },
+  {
+    name: "Secret Archive",
+    type: "Easter Egg",
+    category: "Archivo secreto",
+    status: "Coming Soon",
+    detail: "Coming Soon",
+    image: "assets/images/easter-egg/placeholder-secret-archive.jpg",
+    collaboration: "Future Partner",
+    history: "Contenido preparado para crecer sin crear una arquitectura paralela al detalle existente de autos."
+  }
+];
+const EASTER_EGG_ROUTE = {
+  area: "Easter Egg",
+  title: "Easter Egg",
+  description: "Afiches placeholder del apartado secreto.",
+  folder: "assets/images/easter-egg",
+  items: EASTER_EGG_CARDS
+};
 
 function applyTheme(theme) {
   const selectedTheme = theme === "dark" ? "dark" : "light";
@@ -352,7 +392,7 @@ function renderWikiDetail(path) {
       <header class="wiki-title">
         <p class="eyebrow">${route.area}</p>
         <h1>${item.name}</h1>
-        <p>${item.type} - ${item.year}</p>
+        <p>${item.type} - ${item.status || item.year}</p>
       </header>
 
       <div class="wiki-layout">
@@ -362,8 +402,10 @@ function renderWikiDetail(path) {
           </div>
           <dl class="fact-list">
             <div><dt>Tipo</dt><dd>${item.type}</dd></div>
-            <div><dt>Anio</dt><dd>${item.year}</dd></div>
+            <div><dt>${item.status ? "Estado" : "Anio"}</dt><dd>${item.status || item.year}</dd></div>
             <div><dt>Detalle</dt><dd>${item.detail}</dd></div>
+            ${item.category ? `<div><dt>Categoria</dt><dd>${item.category}</dd></div>` : ""}
+            ${item.collaboration ? `<div><dt>Colaboración con</dt><dd>${item.collaboration}</dd></div>` : ""}
             <div><dt>Sala</dt><dd>${route.title}</dd></div>
           </dl>
         </aside>
@@ -446,8 +488,12 @@ function renderComparison(currentSlug, relatedSlug) {
 function renderComparisonTable(currentItem, relatedItem, route) {
   const rows = [
     { label: "Tipo", key: "type" },
-    { label: "Anio", key: "year" },
+    currentItem.status || relatedItem.status
+      ? { label: "Estado", key: "status" }
+      : { label: "Anio", key: "year" },
     { label: "Detalle", key: "detail" },
+    ...(currentItem.category || relatedItem.category ? [{ label: "Categoria", key: "category" }] : []),
+    ...(currentItem.collaboration || relatedItem.collaboration ? [{ label: "Colaboración con", key: "collaboration" }] : []),
     { label: "Creador / fabricante", key: "creator", source: "specs" },
     { label: "Potencia", key: "power", source: "specs" },
     { label: "Velocidad maxima", key: "topSpeed", source: "specs" },
@@ -643,6 +689,27 @@ function showEasterEggContent() {
       <strong>Premium Content</strong>
       <small>Coming Soon</small>
     </section>
+
+    <section class="vehicle-grid easter-card-grid" aria-label="Afiches Easter Egg">
+      ${EASTER_EGG_CARDS.map(renderEasterEggCard).join("")}
+    </section>
+  `;
+}
+
+function renderEasterEggCard(card) {
+  return `
+    <article class="vehicle-card easter-card">
+      <a class="vehicle-link" href="#/wiki/${createSlug(card.name)}" aria-label="Abrir detalle de ${card.name}">
+        <div class="image-frame">
+          <img src="${card.image}" alt="${card.name}" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen placeholder';" />
+        </div>
+        <div class="vehicle-info">
+          <h3>${card.name}</h3>
+          <p>${card.detail}</p>
+          <span class="card-action">Abrir ficha</span>
+        </div>
+      </a>
+    </article>
   `;
 }
 
@@ -700,6 +767,15 @@ function getAllItems() {
   );
 }
 
+function getEasterEggEntries() {
+  return EASTER_EGG_ROUTE.items.map((item) => ({
+    item,
+    route: EASTER_EGG_ROUTE,
+    roomPath: "/easter-egg",
+    slug: createSlug(item.name)
+  }));
+}
+
 function getRandomEntry() {
   const items = getAllItems();
   return items[Math.floor(Math.random() * items.length)];
@@ -728,7 +804,8 @@ function toggleFavorite(slug) {
 }
 
 function findItemBySlug(slug) {
-  return getAllItems().find((entry) => entry.slug === slug);
+  return getAllItems().find((entry) => entry.slug === slug)
+    || getEasterEggEntries().find((entry) => entry.slug === slug);
 }
 
 function createSlug(value) {
