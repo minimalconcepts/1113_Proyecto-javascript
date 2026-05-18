@@ -227,9 +227,12 @@ function renderVehicleCard(item) {
         </div>
         <div class="vehicle-info">
           <h3>${item.name}</h3>
-          <p><strong>Tipo:</strong> ${item.type}</p>
-          <p><strong>Anio:</strong> ${item.year}</p>
-          <p><strong>Detalle:</strong> ${item.detail}</p>
+          <div class="vehicle-meta">
+            <span>${item.type || "Tipo pendiente"}</span>
+            <span>${item.year || "Anio pendiente"}</span>
+          </div>
+          <p><strong>Detalle:</strong> ${item.detail || "Pendiente por investigar"}</p>
+          <span class="card-action">Abrir ficha</span>
         </div>
       </a>
     </article>

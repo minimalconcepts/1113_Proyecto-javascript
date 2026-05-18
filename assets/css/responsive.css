@@ -1,0 +1,272 @@
+/* === Responsive: tablets y celulares === */
+@media (max-width: 900px) {
+  .home-dashboard,
+  .wiki-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-section,
+  .wiki-media {
+    position: static;
+  }
+
+  .tool-row,
+  .route-card,
+  .vehicle-card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .wiki-intro,
+  .home-summary,
+  .home-dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .topbar,
+  .app-shell {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  .brand {
+    line-height: 1.2;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .menu-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .menu-toggle {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .wiki-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-heading {
+    display: grid;
+  }
+
+  .comparison-table div {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-table span,
+  .comparison-table strong {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .comparison-table span:last-child,
+  .comparison-table strong:last-child {
+    border-bottom: 0;
+  }
+
+  .wiki-intro {
+    min-height: 420px;
+    padding: 24px;
+    background:
+      linear-gradient(180deg, rgba(10, 10, 10, 0.38), rgba(10, 10, 10, 0.9)),
+      url("../images/portada/porsche-911-gt.jpg") center / cover no-repeat;
+  }
+
+  .wiki-intro h1 {
+    font-size: clamp(2rem, 11vw, 3.15rem);
+    line-height: 1;
+  }
+
+  .home-summary,
+  .hero-panel {
+    min-height: auto;
+    padding: 18px 0;
+  }
+
+  .overview-copy,
+  .room-header,
+  .wiki-entry,
+  .wiki-block {
+    padding: 18px;
+  }
+
+  .stats-panel article {
+    min-height: 72px;
+  }
+
+  .section-row {
+    display: grid;
+    align-items: start;
+  }
+
+  .nav-menu {
+    position: static;
+    width: 100%;
+    grid-template-columns: 1fr;
+    margin-top: 10px;
+    max-height: 70vh;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .route-grid,
+  .vehicle-grid,
+  .pilot-grid,
+  .founder-grid,
+  .quick-actions,
+  .tool-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  }
+
+  .tool-row,
+  .route-card,
+  .vehicle-card {
+    max-width: none;
+  }
+
+  .random-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: 2.15rem;
+    line-height: 1.04;
+  }
+
+  h2 {
+    font-size: 1.45rem;
+  }
+
+  .app-shell {
+    padding-top: 18px;
+  }
+
+  .wiki-intro {
+    min-height: 360px;
+    margin-bottom: 16px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .wiki-intro p:not(.eyebrow) {
+    font-size: 0.95rem;
+  }
+
+  .home-dashboard {
+    gap: 22px;
+    padding-top: 24px;
+  }
+
+  .route-grid,
+  .quick-actions,
+  .tool-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .vehicle-grid,
+  .pilot-grid,
+  .founder-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .route-card {
+    min-height: 108px;
+    padding: 13px;
+  }
+
+  .route-card strong {
+    font-size: 1rem;
+  }
+
+  .vehicle-info,
+  .tool-row,
+  .pilot-card,
+  .founder-card {
+    padding: 14px;
+  }
+
+  .image-frame {
+    padding: 10px;
+  }
+
+  .detail-actions,
+  .room-tabs,
+  .vehicle-meta {
+    gap: 8px;
+  }
+
+  .back-link,
+  .primary-button,
+  .secondary-button,
+  .room-tabs a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .detail-actions {
+    display: grid;
+  }
+
+  .favorite-button.detail {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .favorite-button {
+    top: 10px;
+    right: 10px;
+  }
+
+  .fact-list div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .comparison-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .route-grid,
+  .quick-actions,
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-menu {
+    padding: 12px;
+  }
+}
