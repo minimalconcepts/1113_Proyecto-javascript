@@ -6,61 +6,173 @@
   <title>museum car</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/responsive.css" />
+  <style>
+    /* --- ESTILOS DE LA INTRO Y TRANSICIÓN DE FONDO EN MOVIMIENTO --- */
+    #intro-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #050506, #120520, #09030e, #220542);
+      background-size: 300% 300%;
+      animation: gradientMovement 8s ease-in-out infinite;
+      transition: opacity 1s ease;
+    }
+
+    @keyframes gradientMovement {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #intro-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Contenedor del Logo Forzado al Centro Absoluto Real */
+    #intro-logo-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      width: 100vw; /* Ocupa todo el ancho visual para centrar el texto interno */
+      pointer-events: none;
+      display: none;
+    }
+
+    #intro-logo-container.visible {
+      display: block;
+    }
+
+    /* Animación de caída estilizada */
+    @keyframes dropIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-200px) scale(0.85);
+      }
+      70% {
+        transform: translateY(15px) scale(1.03);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .intro-brand {
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: clamp(4rem, 11vw, 9.5rem); /* Letra ultra grande y adaptativa */
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 16px;
+      margin-right: -16px; /* Compensa exactamente el letter-spacing para un centrado perfecto */
+      color: #ffffff;
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 0;
+      padding: 0;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap; /* Evita que el texto se parta en dos líneas */
+      animation: dropIn 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      
+      /* Brillo e iluminación de exposición de autos */
+      text-shadow: 0 0 20px rgba(168, 85, 247, 0.85), 
+                   0 0 40px rgba(168, 85, 247, 0.5), 
+                   0 15px 25px rgba(0, 0, 0, 0.95);
+    }
+
+    .fade-out {
+      opacity: 0 !important;
+    }
+
+    /* --- ESTILO TEMPORAL PARA BOTONES AL SER PRESIONADOS --- */
+    .magic-burst-btn {
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    
+    .magic-burst-btn.active-purple {
+      background-color: #a855f7 !important;
+      color: #ffffff !important;
+    }
+    .magic-burst-btn.active-purple small,
+    .magic-burst-btn.active-purple strong {
+      color: #ffffff !important;
+    }
+  </style>
 </head>
 <body>
-  <!-- Encabezado principal: contiene marca, navegacion y acceso a las rutas JS. -->
+
+  <div id="intro-layer">
+    <canvas id="intro-canvas"></canvas>
+    <div id="intro-logo-container">
+      <h1 class="intro-brand">museum car</h1>
+    </div>
+  </div>
+
   <header class="app-header">
     <nav class="topbar" aria-label="Navegacion principal">
       <a class="brand" href="#/">museum car</a>
       <div class="topbar-actions">
-        <!-- Boton de tema: cambia entre modo claro y oscuro sin abrir el menu. -->
-        <button class="theme-toggle" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
+        <button class="theme-toggle magic-burst-btn" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
           <span aria-hidden="true">☾</span>
         </button>
 
         <div class="menu-wrapper">
-          <!-- Boton de menu: agrupa las rutas para que la barra superior no quede saturada. -->
-          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
+          <button class="menu-toggle magic-burst-btn" type="button" aria-expanded="false" aria-controls="main-menu">
             Menu principal
           </button>
 
-          <!-- Menu principal: separa colecciones y herramientas de aprendizaje. -->
           <div class="nav-menu" id="main-menu">
-            <a class="menu-home-link" href="#/">
+            <a class="menu-home-link magic-burst-btn" href="#/">
               <strong>Inicio</strong>
               <small>Volver a la portada del museo</small>
             </a>
 
             <section>
               <p>Colecciones</p>
-              <a class="menu-link" href="#/autos/deportivos">
+              <a class="menu-link magic-burst-btn" href="#/autos/deportivos">
                 <strong>Autos</strong>
                 <small>Calle, deportivos, GT3 e hyper cars</small>
               </a>
-              <a class="menu-link" href="#/motos/gp">
+              <a class="menu-link magic-burst-btn" href="#/motos/gp">
                 <strong>Motos</strong>
                 <small>Calle, alto cilindraje y GP</small>
               </a>
-              <a class="menu-link" href="#/aviones/comerciales">
+              <a class="menu-link magic-burst-btn" href="#/aviones/comerciales">
                 <strong>Aviones</strong>
                 <small>Comerciales y combate</small>
               </a>
             </section>
             <section>
               <p>Herramientas</p>
-              <a class="menu-link" href="#/random">
+              <a class="menu-link magic-burst-btn" href="#/random">
                 <strong>Randomizador</strong>
                 <small>Aprender una pieza al azar</small>
               </a>
-              <a class="menu-link" href="#/favoritos">
+              <a class="menu-link magic-burst-btn" href="#/favoritos">
                 <strong>Favoritos</strong>
                 <small>Elementos guardados</small>
               </a>
-              <a class="menu-link" href="#/pilotos">
+              <a class="menu-link magic-burst-btn" href="#/pilotos">
                 <strong>Pilotos famosos</strong>
                 <small>Personajes importantes</small>
               </a>
-              <a class="menu-link" href="#/fundadores">
+              <a class="menu-link magic-burst-btn" href="#/fundadores">
                 <strong>Creadores de marcas</strong>
                 <small>Origen de marcas historicas</small>
               </a>
@@ -71,10 +183,202 @@
     </nav>
   </header>
 
-  <!-- Contenedor de la app: JavaScript renderiza aqui cada ruta. -->
   <main id="app" class="app-shell" aria-live="polite"></main>
 
-  <!-- Datos, router y render principal de la aplicacion. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // --- APARTADO 1: INTRO CINEMÁTICA INTERACTIVA 3D ---
+      const introLayer = document.getElementById('intro-layer');
+      const canvas = document.getElementById('intro-canvas');
+      const logoContainer = document.getElementById('intro-logo-container');
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+
+      scene.fog = new THREE.FogExp2(0x0a0a0a, 0.02);
+
+      // Iluminación Profesional
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+      scene.add(ambientLight);
+
+      const mainLight = new THREE.DirectionalLight(0xffffff, 1.8);
+      mainLight.position.set(5, 10, 7);
+      scene.add(mainLight);
+
+      const rimLight = new THREE.DirectionalLight(0xa855f7, 1.5);
+      rimLight.position.set(-5, 4, -5);
+      scene.add(rimLight);
+
+      const floorGeo = new THREE.PlaneGeometry(500, 500);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.3, transparent: true, opacity: 0.8 });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+
+      // Sistema de Humo (Partículas)
+      const smokeGeo = new THREE.BufferGeometry();
+      const smokeCount = 180;
+      const smokePositions = new Float32Array(smokeCount * 3);
+      
+      for(let i=0; i<smokeCount*3; i++) { smokePositions[i] = 0; }
+      smokeGeo.setAttribute('position', new THREE.BufferAttribute(smokePositions, 3));
+      
+      const smokeMat = new THREE.PointsMaterial({
+        color: 0xa855f7,
+        size: 0.6,
+        transparent: true,
+        opacity: 0
+      });
+      const smokeSystem = new THREE.Points(smokeGeo, smokeMat);
+      scene.add(smokeSystem);
+
+      let carModel = null;
+      const loader = new THREE.GLTFLoader();
+
+      loader.load('2020_chevrolet_corvette_c8.r.glb', (gltf) => {
+        carModel = gltf.scene;
+        carModel.scale.set(1.5, 1.5, 1.5);
+        carModel.position.set(0, 0, 0);
+        scene.add(carModel);
+      }, undefined, (error) => {
+        console.error("Error cargando el modelo 3D, iniciando bypass de intro...", error);
+        startFallBackIntro();
+      });
+
+      let clock = new THREE.Clock();
+      let introStage = 0; 
+      let smokeActive = false;
+
+      camera.position.set(4, 1.2, 5);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
+
+        if (carModel) {
+          if (introStage === 0) {
+            camera.position.x = 4 * Math.cos(elapsedTime * 0.4);
+            camera.position.z = 5 * Math.sin(elapsedTime * 0.4);
+            camera.position.y = 1.0 + Math.sin(elapsedTime * 0.8) * 0.3;
+            camera.lookAt(carModel.position);
+
+            if (elapsedTime > 4.5) {
+              introStage = 1; 
+            }
+          } 
+          else if (introStage === 1) {
+            carModel.position.z -= 0.35;
+            
+            camera.position.z = carModel.position.z + 6;
+            camera.position.x = 1.5;
+            camera.position.y = 0.8;
+            camera.lookAt(new THREE.Vector3(0, 0.5, carModel.position.z));
+
+            smokeActive = true;
+            smokeMat.opacity = Math.min(smokeMat.opacity + 0.05, 0.6);
+
+            if (carModel.position.z < -25) {
+              introStage = 2;
+            }
+          }
+        }
+
+        // El texto cae de golpe en el segundo 3.2 de la intro
+        if (elapsedTime > 3.2 && !logoContainer.classList.contains('visible')) {
+          logoContainer.classList.add('visible');
+        }
+
+        if (smokeActive) {
+          const positions = smokeSystem.geometry.attributes.position.array;
+          for (let i = 0; i < smokeCount; i++) {
+            let idx = i * 3;
+            if (positions[idx + 2] > 0 || Math.random() < 0.02) {
+              positions[idx] = (Math.random() - 0.5) * 1.5;
+              positions[idx + 1] = Math.random() * 1.2;
+              positions[idx + 2] = carModel ? carModel.position.z + 1.5 : 0;
+            } else {
+              positions[idx] += (Math.random() - 0.5) * 0.1;
+              positions[idx + 1] += Math.random() * 0.05;
+              positions[idx + 2] += 0.05; 
+            }
+          }
+          smokeSystem.geometry.attributes.position.needsUpdate = true;
+        }
+
+        renderer.render(scene, camera);
+      }
+      
+      animate();
+
+      // Cierre de la intro
+      setTimeout(() => {
+        introLayer.classList.add('fade-out');
+        setTimeout(() => {
+          introLayer.style.display = 'none';
+        }, 1000);
+      }, 8500);
+
+      function startFallBackIntro() {
+        setTimeout(() => {
+          logoContainer.classList.add('visible');
+          setTimeout(() => { introLayer.classList.add('fade-out'); setTimeout(() => introLayer.style.display = 'none', 1000); }, 2500);
+        }, 500);
+      }
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+
+      // --- APARTADO 2: EFECTO MAGIC BURST RINGS Y COLOR MORADO TEMPORAL ---
+      const burstButtons = document.querySelectorAll('.magic-burst-btn');
+      
+      burstButtons.forEach(btn => {
+        btn.style.position = 'relative';
+        btn.style.overflow = 'hidden';
+
+        btn.addEventListener('click', (e) => {
+          btn.classList.add('active-purple');
+          setTimeout(() => {
+            btn.classList.remove('active-purple');
+          }, 1000);
+
+          const container = document.createElement('div');
+          container.className = 'magic-burst-container';
+          btn.appendChild(container);
+
+          const rect = btn.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const clickY = e.clientY - rect.top;
+
+          const ringCount = 6;
+          for (let i = 0; i < ringCount; i++) {
+            const ring = document.createElement('div');
+            ring.className = 'magic-burst-ring';
+            
+            ring.style.left = `${clickX}px`;
+            ring.style.top = `${clickY}px`;
+            ring.style.animationDelay = `${i * 0.07}s`;
+            
+            container.appendChild(ring);
+          }
+
+          setTimeout(() => {
+            container.remove();
+          }, 1100);
+        });
+      });
+    });
+  </script>
+
   <script src="assets/js/data.js"></script>
   <script src="assets/js/router.js"></script>
   <script src="assets/js/app.js"></script>
