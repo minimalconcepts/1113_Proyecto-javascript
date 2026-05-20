@@ -1,402 +1,199 @@
-# Tarea 4 — Sistema de comparación de vehículos
+# Tarea 4 — Ordenamiento avanzado (Sorting)
 
 **Proyecto:** Car Museum  
-**Clase:** JavaScript Intermedio - Avanzado  
-**Nivel:** Intermedio+
+**Clase:** JavaScript Intermedio  
+**Nivel:** Intermedio
 
 ---
 
 ## Objetivo de esta tarea
 
-Agregar la capacidad de **comparar 2-3 vehículos lado a lado**:
+Agregar la capacidad de **ordenar los vehículos por diferentes criterios**:
 
-- Botón "Comparar" en cada vehículo
-- Panel de comparación que muestre specs lado a lado
-- Poder agregar/quitar vehículos de la comparación
-- Mostrar diferencias destacadas
+- **Por precio** (menor a mayor / mayor a menor)
+- **Por año** (más reciente primero / más antiguo)
+- **Por potencia** (más potencia primero)
+- **Por velocidad máxima** (más rápido primero)
+
+Sin eliminar el filtrado existente, solo agregar orden a los resultados.
 
 ---
 
 ## ¿Por qué es importante?
 
-Todos los sitios de e-commerce importantes tienen comparación (Amazon, Mercado Libre, Automotrices, etc.). Permite al usuario tomar decisiones informadas viendo múltiples productos juntos.
+Todos los sitios serios de e-commerce tienen ordenamiento:
+- Amazon: "Ordenar por precio", "Ordenar por calificación"
+- Airbnb: "Ordenar por precio", "Ordenar por calificación"
+- Mercado Libre: "Orden: relevancia", "Orden: precio menor a mayor"
+
+El ordenamiento es lo que hace que un usuario encuentre rápido lo que necesita.
 
 ---
 
-## Paso 1 — Estructura HTML para comparación
+## Paso 1 — Agregar controles de ordenamiento en HTML
 
-En `index.html`, después de la sección de catálogo, agregar:
+En `index.html`, agregar un nuevo select después de los filtros:
 
 ```html
-<!-- BOTÓN PARA ABRIR COMPARACIÓN -->
-<div class="comparacion-header">
-  <button id="btn-ver-comparacion" class="btn-comparacion">
-    Ver comparación (<span id="contador-comparacion">0</span>)
-  </button>
-</div>
-
-<!-- MODAL DE COMPARACIÓN -->
-<div id="modal-comparacion" class="modal-comparacion" style="display: none;">
-  <div class="modal-content-comparacion">
-    <div class="modal-header-comparacion">
-      <h2>Comparar vehículos</h2>
-      <button id="btn-cerrar-comparacion" class="btn-cerrar">&times;</button>
-    </div>
-
-    <div id="tabla-comparacion" class="tabla-comparacion">
-      <!-- Se llena con JavaScript -->
-    </div>
-
-    <div class="modal-footer-comparacion">
-      <button id="btn-limpiar-comparacion" class="btn-limpiar">
-        Limpiar comparación
-      </button>
-      <button id="btn-cerrar-modal" class="btn-cerrar-modal">
-        Cerrar
-      </button>
-    </div>
-  </div>
+<div class="ordenamiento-container">
+  <label for="ordenamiento">Ordenar por:</label>
+  <select id="ordenamiento" onchange="aplicarOrdenamiento()">
+    <option value="defecto">Orden por defecto</option>
+    <option value="precio-asc">Precio: Menor a Mayor</option>
+    <option value="precio-desc">Precio: Mayor a Menor</option>
+    <option value="anio-desc">Año: Más reciente</option>
+    <option value="anio-asc">Año: Más antiguo</option>
+    <option value="potencia-desc">Potencia: Mayor</option>
+    <option value="velocidad-desc">Velocidad máxima: Mayor</option>
+  </select>
 </div>
 ```
 
 ---
 
-## Paso 2 — Estilos CSS para comparación
+## Paso 2 — Agregar estilos CSS
 
 En `styles.css`, agregar:
 
 ```css
-.comparacion-header {
-  margin-top: 30px;
-  text-align: center;
+.ordenamiento-container {
+  margin: 15px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
-.btn-comparacion {
-  padding: 12px 24px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
+.ordenamiento-container label {
   font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+  color: #333;
 }
 
-.btn-comparacion:hover {
-  background-color: #218838;
-  transform: scale(1.05);
-}
-
-/* MODAL */
-.modal-comparacion {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content-comparacion {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 1000px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header-comparacion {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 15px;
-}
-
-.modal-header-comparacion h2 {
-  margin: 0;
-}
-
-.btn-cerrar {
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: #999;
-}
-
-.btn-cerrar:hover {
-  color: #000;
-}
-
-.tabla-comparacion {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.vehiculo-comparacion {
+.ordenamiento-container select {
+  padding: 10px 15px;
   border: 2px solid #ddd;
   border-radius: 8px;
-  padding: 15px;
-  position: relative;
-}
-
-.vehiculo-comparacion img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.vehiculo-comparacion h3 {
-  margin: 10px 0;
-  color: #333;
-}
-
-.spec-comparacion {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
   font-size: 14px;
-}
-
-.spec-label {
-  font-weight: bold;
-  color: #666;
-}
-
-.spec-valor {
-  color: #333;
-}
-
-.btn-quitar-comparacion {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
   cursor: pointer;
-  font-size: 18px;
-}
-
-.btn-quitar-comparacion:hover {
-  background: #c82333;
-}
-
-.modal-footer-comparacion {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  border-top: 2px solid #eee;
-  padding-top: 15px;
-}
-
-.btn-limpiar,
-.btn-cerrar-modal {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
+  background: white;
   transition: 0.3s;
 }
 
-.btn-limpiar {
-  background: #ffc107;
-  color: #333;
+.ordenamiento-container select:hover {
+  border-color: #007bff;
 }
 
-.btn-limpiar:hover {
-  background: #ffb300;
-}
-
-.btn-cerrar-modal {
-  background: #007bff;
-  color: white;
-}
-
-.btn-cerrar-modal:hover {
-  background: #0056b3;
+.ordenamiento-container select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
 ```
 
 ---
 
-## Paso 3 — Crear array para comparación
+## Paso 3 — Crear variable para ordenamiento
 
-En `app.js`, agregar al inicio:
+En `app.js`, al inicio, agregar:
 
 ```js
-let vehiculosAComparar = []
+let ordenamientoActual = 'defecto'
+```
 
-function agregarAComparacion(id) {
-  const vehiculo = vehiculos.find(v => v.id === id)
+---
+
+## Paso 4 — Crear función de ordenamiento
+
+Agregar esta función después de la función de filtrado:
+
+```js
+function aplicarOrdenamiento() {
+  ordenamientoActual = document.getElementById('ordenamiento').value
+  filtrarVehiculos() // Re-renderizar con el nuevo orden
+}
+
+function ordenarVehiculos(lista) {
+  const copia = [...lista] // Copia el array para no modificar el original
   
-  // Evitar agregar el mismo vehículo dos veces
-  if (vehiculosAComparar.find(v => v.id === id)) {
-    alert('Este vehículo ya está en la comparación')
-    return
+  switch(ordenamientoActual) {
+    case 'precio-asc':
+      copia.sort((a, b) => a.precio - b.precio)
+      break
+      
+    case 'precio-desc':
+      copia.sort((a, b) => b.precio - a.precio)
+      break
+      
+    case 'anio-desc':
+      copia.sort((a, b) => b.anio - a.anio)
+      break
+      
+    case 'anio-asc':
+      copia.sort((a, b) => a.anio - b.anio)
+      break
+      
+    case 'potencia-desc':
+      copia.sort((a, b) => {
+        const potA = a.specs?.power ? parseInt(a.specs.power) : 0
+        const potB = b.specs?.power ? parseInt(b.specs.power) : 0
+        return potB - potA
+      })
+      break
+      
+    case 'velocidad-desc':
+      copia.sort((a, b) => {
+        const velA = a.specs?.topSpeed ? parseInt(a.specs.topSpeed) : 0
+        const velB = b.specs?.topSpeed ? parseInt(b.specs.topSpeed) : 0
+        return velB - velA
+      })
+      break
+      
+    case 'defecto':
+    default:
+      // Mantener el orden original
+      break
   }
   
-  // Máximo 3 vehículos
-  if (vehiculosAComparar.length >= 3) {
-    alert('Máximo 3 vehículos para comparar')
-    return
-  }
-  
-  vehiculosAComparar.push(vehiculo)
-  actualizarContadorComparacion()
-}
-
-function quitarDeComparacion(id) {
-  vehiculosAComparar = vehiculosAComparar.filter(v => v.id !== id)
-  actualizarContadorComparacion()
-  renderizarComparacion()
-}
-
-function limpiarComparacion() {
-  vehiculosAComparar = []
-  actualizarContadorComparacion()
-  cerrarModalComparacion()
-}
-
-function actualizarContadorComparacion() {
-  document.getElementById('contador-comparacion').textContent = 
-    vehiculosAComparar.length
+  return copia
 }
 ```
 
 ---
 
-## Paso 4 — Función para renderizar comparación
+## Paso 5 — Integrar ordenamiento en función de renderizado
 
-Agregar:
+Modificar la función que renderiza los vehículos para aplicar ordenamiento:
 
 ```js
-function renderizarComparacion() {
-  const tablaComparacion = document.getElementById('tabla-comparacion')
-  tablaComparacion.innerHTML = ''
-
-  if (vehiculosAComparar.length === 0) {
-    tablaComparacion.innerHTML = '<p>No hay vehículos para comparar</p>'
-    return
-  }
-
-  vehiculosAComparar.forEach(function(vehiculo) {
-    const div = document.createElement('div')
-    div.className = 'vehiculo-comparacion'
-    
-    div.innerHTML = `
-      <button class="btn-quitar-comparacion" onclick="quitarDeComparacion(${vehiculo.id})">
-        ×
-      </button>
-      <img src="${vehiculo.imagen}" alt="${vehiculo.modelo}">
-      <h3>${vehiculo.marca} ${vehiculo.modelo}</h3>
-      
-      <div class="spec-comparacion">
-        <span class="spec-label">Precio:</span>
-        <span class="spec-valor">$${vehiculo.precio.toLocaleString()}</span>
-      </div>
-      
-      <div class="spec-comparacion">
-        <span class="spec-label">Año:</span>
-        <span class="spec-valor">${vehiculo.anio}</span>
-      </div>
-      
-      <div class="spec-comparacion">
-        <span class="spec-label">Tipo:</span>
-        <span class="spec-valor">${vehiculo.tipo}</span>
-      </div>
-      
-      ${vehiculo.potencia ? `
-      <div class="spec-comparacion">
-        <span class="spec-label">Potencia:</span>
-        <span class="spec-valor">${vehiculo.potencia} HP</span>
-      </div>
-      ` : ''}
-    `
-    
-    tablaComparacion.appendChild(div)
+function filtrarVehiculos() {
+  // ... código de filtrado existente ...
+  
+  // ANTES de renderizar:
+  let vehiculosFiltrados = vehiculos.filter(function(vehiculo) {
+    // ... lógica de filtrado ...
   })
+  
+  // DESPUÉS de filtrar, aplicar ordenamiento:
+  vehiculosFiltrados = ordenarVehiculos(vehiculosFiltrados)
+  
+  // LUEGO renderizar:
+  renderizarCatalogo(vehiculosFiltrados)
 }
 ```
 
 ---
 
-## Paso 5 — Modal y event listeners
+## Paso 6 — Verificar en el navegador
 
-Agregar:
-
-```js
-function abrirModalComparacion() {
-  if (vehiculosAComparar.length === 0) {
-    alert('Agrega vehículos a la comparación primero')
-    return
-  }
-  renderizarComparacion()
-  document.getElementById('modal-comparacion').style.display = 'flex'
-}
-
-function cerrarModalComparacion() {
-  document.getElementById('modal-comparacion').style.display = 'none'
-}
-
-// Event listeners
-document.getElementById('btn-ver-comparacion').addEventListener('click', abrirModalComparacion)
-document.getElementById('btn-cerrar-comparacion').addEventListener('click', cerrarModalComparacion)
-document.getElementById('btn-cerrar-modal').addEventListener('click', cerrarModalComparacion)
-document.getElementById('btn-limpiar-comparacion').addEventListener('click', limpiarComparacion)
-
-// Cerrar modal si clickea fuera
-document.getElementById('modal-comparacion').addEventListener('click', function(e) {
-  if (e.target === this) {
-    cerrarModalComparacion()
-  }
-})
-```
-
----
-
-## Paso 6 — Agregar botón "Comparar" en cada tarjeta
-
-Cuando renderices las tarjetas de vehículos, agregar un botón:
-
-```js
-// En la función que renderiza cada vehículo:
-let botonComparar = document.createElement('button')
-botonComparar.textContent = 'Comparar'
-botonComparar.onclick = function() {
-  agregarAComparacion(vehiculo.id)
-}
-card.appendChild(botonComparar)
-```
-
----
-
-## Verificar en el navegador
-
-1. Agrega varios vehículos a la comparación (máximo 3)
-2. Haz clic en "Ver comparación"
-3. Deberían verse lado a lado
-4. Prueba quitar uno con el botón "×"
-5. Limpiar y empezar de nuevo
+1. Abre el proyecto
+2. Usa los filtros de búsqueda y marca/tipo
+3. Selecciona un ordenamiento del select
+4. Los vehículos deberían reordenarse
+5. Prueba todas las opciones:
+   - Precio menor a mayor
+   - Precio mayor a menor
+   - Año más reciente
+   - Potencia más alta
+   - Velocidad máxima
 
 ---
 
@@ -404,17 +201,53 @@ card.appendChild(botonComparar)
 
 | Concepto | ¿Qué hace? |
 |----------|-----------|
-| Array de selección | Mantener track de elementos seleccionados |
-| Modal | Ventana emergente para mostrar contenido |
-| Grid responsive | Layout flexible que se adapta |
-| Validación de límites | Máximo 3 items |
-| Event delegation | Usar onclick dinámicamente |
+| `.sort()` | Ordena un array según una función |
+| `(a, b) => a - b` | Ordena de menor a mayor |
+| `(a, b) => b - a` | Ordena de mayor a menor |
+| `[...array]` | Crea una copia del array (spread operator) |
+| `switch/case` | Elige acción según valor |
+| `?.` | Optional chaining (acceso seguro a propiedades) |
+| Immutabilidad | No modificar el array original, trabajar con copia |
+
+---
+
+## Explicación de `.sort()`
+
+```js
+// Ordenar números de menor a mayor
+[3, 1, 4, 1, 5].sort((a, b) => a - b)
+// Resultado: [1, 1, 3, 4, 5]
+
+// Ordenar números de mayor a menor
+[3, 1, 4, 1, 5].sort((a, b) => b - a)
+// Resultado: [5, 4, 3, 1, 1]
+
+// Ordenar objetos por propiedad
+let autos = [
+  { modelo: "Ferrari", precio: 800000 },
+  { modelo: "BMW", precio: 200000 }
+]
+
+autos.sort((a, b) => a.precio - b.precio)
+// Resultado: BMW primero (precio menor), Ferrari después
+```
 
 ---
 
 ## Desafío extra (opcional)
 
-1. Mostrar un icono verde/rojo en specs donde uno es mejor que otro.
-2. Guardar la comparación actual en `localStorage`.
-3. Permitir compartir la comparación (copiar URL con parámetros).
+1. Agregar un icono (▲ ▼) que muestre la dirección del ordenamiento actual.
+2. Recordar el ordenamiento seleccionado en `localStorage`.
+3. Combinar ordenamiento con búsqueda (buscar "Ferrari" y ordenar por precio).
+4. Agregar un botón "Reiniciar ordenamiento" que vuelva al orden por defecto.
 
+> **Pista para punto 2**: Podés usar `localStorage.setItem('ordenamiento', valor)` y recuperarlo con `localStorage.getItem('ordenamiento')` al cargar la página.
+
+---
+
+## Diferencia: Comparación vs Ordenamiento
+
+- **Comparación** (ya implementado): Muestra 2-3 vehículos lado a lado para que el usuario decida.
+- **Ordenamiento** (esta tarea): Ordena toda la lista por un criterio, para que el usuario encuentre rápido.
+
+Ambos son complementarios. Primero ordena, después compara.
