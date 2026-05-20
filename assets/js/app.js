@@ -152,15 +152,48 @@ if (themeToggle) {
 }
 
 if (menuToggle && navMenu) {
-  menuToggle.addEventListener("click", () => {
-    const isOpen = navMenu.classList.toggle("is-open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  const closeMenu = () => {
+    navMenu.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "Menu principal";
+  };
+
+  const openMenu = () => {
+    navMenu.classList.add("is-open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.textContent = "Cerrar menu";
+  };
+
+  menuToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    if (navMenu.classList.contains("is-open")) {
+      closeMenu();
+      return;
+    }
+
+    openMenu();
   });
 
   navMenu.addEventListener("click", (event) => {
-    if (event.target.matches("a")) {
-      navMenu.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded", "false");
+    if (event.target.closest("a")) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!navMenu.classList.contains("is-open")) {
+      return;
+    }
+
+    if (!event.target.closest(".menu-wrapper")) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
     }
   });
 }
@@ -346,7 +379,7 @@ function renderVehicleCard(item) {
       </button>
       <a class="vehicle-link" href="#/wiki/${slug}" aria-label="Abrir historia de ${item.name}">
         <div class="image-frame">
-          <img src="${item.image}" alt="${item.name}" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen pendiente';" />
+          <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen pendiente';" />
         </div>
         <div class="vehicle-info">
           <h3>${item.name}</h3>
@@ -398,7 +431,7 @@ function renderWikiDetail(path) {
       <div class="wiki-layout">
         <aside class="wiki-media">
           <div class="image-frame large">
-            <img src="${item.image}" alt="${item.name}" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen pendiente';" />
+            <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen pendiente';" />
           </div>
           <dl class="fact-list">
             <div><dt>Tipo</dt><dd>${item.type}</dd></div>
@@ -701,7 +734,7 @@ function renderEasterEggCard(card) {
     <article class="vehicle-card easter-card">
       <a class="vehicle-link" href="#/wiki/${createSlug(card.name)}" aria-label="Abrir detalle de ${card.name}">
         <div class="image-frame">
-          <img src="${card.image}" alt="${card.name}" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen placeholder';" />
+          <img src="${card.image}" alt="${card.name}" loading="lazy" decoding="async" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen placeholder';" />
         </div>
         <div class="vehicle-info">
           <h3>${card.name}</h3>
@@ -828,9 +861,17 @@ function renderNotFound(path) {
   `;
 }
 
+function handleRouteChange() {
+  renderApp();
+  window.scrollTo({
+    top: 0,
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+  });
+}
+
 window.toggleFavorite = toggleFavorite;
 window.renderRandomizer = renderRandomizer;
 window.renderComparison = renderComparison;
 window.showEasterEggContent = showEasterEggContent;
-window.AppRouter.onChange(renderApp);
+window.AppRouter.onChange(handleRouteChange);
 renderApp();

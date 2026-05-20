@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>museum car</title>
+  <title>il♥verscars</title>
+  <link rel="preload" href="assets/images/portada/porsche-911-gt.jpg" as="image" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/responsive.css" />
   <style>
@@ -78,8 +79,8 @@
       font-size: clamp(4rem, 11vw, 9.5rem); /* Letra ultra grande y adaptativa */
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 16px;
-      margin-right: -16px; /* Compensa exactamente el letter-spacing para un centrado perfecto */
+      letter-spacing: 10px;
+      margin-right: -10px; /* Compensa el letter-spacing para un centrado visual */
       color: #ffffff;
       margin-top: 0;
       margin-bottom: 0;
@@ -94,6 +95,34 @@
       text-shadow: 0 0 20px rgba(168, 85, 247, 0.85), 
                    0 0 40px rgba(168, 85, 247, 0.5), 
                    0 15px 25px rgba(0, 0, 0, 0.95);
+    }
+
+    .intro-brand .brand-heart {
+      color: #ff5969;
+      display: inline-block;
+      margin: 0 0.04em;
+      text-shadow: 0 0 18px rgba(255, 89, 105, 0.9),
+                   0 0 38px rgba(168, 85, 247, 0.58);
+    }
+
+    .intro-skip {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      z-index: 12;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.28);
+      color: #ffffff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .intro-skip:hover {
+      border-color: #ff5969;
+      background: rgba(255, 89, 105, 0.18);
     }
 
     .fade-out {
@@ -120,13 +149,18 @@
   <div id="intro-layer">
     <canvas id="intro-canvas"></canvas>
     <div id="intro-logo-container">
-      <h1 class="intro-brand">museum car</h1>
+      <h1 class="intro-brand">
+        il<span class="brand-heart">♥</span>verscars
+      </h1>
     </div>
+    <button class="intro-skip" type="button">Saltar intro</button>
   </div>
 
   <header class="app-header">
     <nav class="topbar" aria-label="Navegacion principal">
-      <a class="brand" href="#/">museum car</a>
+      <a class="brand" href="#/" aria-label="iloverscars">
+        il<span class="brand-heart">♥</span>verscars
+      </a>
       <div class="topbar-actions">
         <button class="theme-toggle magic-burst-btn" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
           <span aria-hidden="true">☾</span>
@@ -185,6 +219,21 @@
 
   <main id="app" class="app-shell" aria-live="polite"></main>
 
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <p>© 2026 il♥verscars, proyecto estudiantil.</p>
+      <nav class="footer-links" aria-label="Navegacion del footer">
+        <a href="#/">Inicio</a>
+        <a href="#/autos/deportivos">Autos</a>
+        <a href="#/motos/gp">Motos</a>
+        <a href="#/aviones/comerciales">Aviones</a>
+        <a href="#/random">Randomizador</a>
+        <a href="#/favoritos">Favoritos</a>
+        <a href="#/fundadores">Fundadores</a>
+      </nav>
+    </div>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -194,10 +243,23 @@
       const introLayer = document.getElementById('intro-layer');
       const canvas = document.getElementById('intro-canvas');
       const logoContainer = document.getElementById('intro-logo-container');
+      const skipIntroButton = document.querySelector('.intro-skip');
+      const useLightIntro = window.matchMedia('(max-width: 760px), (prefers-reduced-motion: reduce)').matches;
+      let renderer;
+      let introFinished = false;
+      let animationId;
+
+      skipIntroButton.addEventListener('click', closeIntro);
+
+      if (useLightIntro) {
+        startFallBackIntro();
+        return;
+      }
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
 
@@ -242,13 +304,19 @@
       const loader = new THREE.GLTFLoader();
 
       loader.load('2020_chevrolet_corvette_c8.r.glb', (gltf) => {
+        if (introFinished) {
+          return;
+        }
+
         carModel = gltf.scene;
         carModel.scale.set(1.5, 1.5, 1.5);
         carModel.position.set(0, 0, 0);
         scene.add(carModel);
       }, undefined, (error) => {
         console.error("Error cargando el modelo 3D, iniciando bypass de intro...", error);
-        startFallBackIntro();
+        if (!introFinished) {
+          startFallBackIntro();
+        }
       });
 
       let clock = new THREE.Clock();
@@ -258,7 +326,11 @@
       camera.position.set(4, 1.2, 5);
 
       function animate() {
-        requestAnimationFrame(animate);
+        if (introFinished) {
+          return;
+        }
+
+        animationId = requestAnimationFrame(animate);
         const elapsedTime = clock.getElapsedTime();
 
         if (carModel) {
@@ -318,24 +390,43 @@
 
       // Cierre de la intro
       setTimeout(() => {
-        introLayer.classList.add('fade-out');
-        setTimeout(() => {
-          introLayer.style.display = 'none';
-        }, 1000);
+        closeIntro();
       }, 8500);
 
       function startFallBackIntro() {
         setTimeout(() => {
           logoContainer.classList.add('visible');
-          setTimeout(() => { introLayer.classList.add('fade-out'); setTimeout(() => introLayer.style.display = 'none', 1000); }, 2500);
+          setTimeout(closeIntro, 2500);
         }, 500);
       }
 
-      window.addEventListener('resize', () => {
+      function closeIntro() {
+        if (introFinished) {
+          return;
+        }
+
+        introFinished = true;
+        cancelAnimationFrame(animationId);
+        window.removeEventListener('resize', handleIntroResize);
+        skipIntroButton.removeEventListener('click', closeIntro);
+
+        if (renderer) {
+          renderer.dispose();
+        }
+
+        introLayer.classList.add('fade-out');
+        setTimeout(() => {
+          introLayer.style.display = 'none';
+        }, 1000);
+      }
+
+      function handleIntroResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      });
+      }
+
+      window.addEventListener('resize', handleIntroResize);
 
 
       // --- APARTADO 2: EFECTO MAGIC BURST RINGS Y COLOR MORADO TEMPORAL ---

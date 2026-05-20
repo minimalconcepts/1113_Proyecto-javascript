@@ -100,7 +100,18 @@ h2 {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: white;
   font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+.brand-heart {
+  color: var(--red);
+  line-height: 1;
 }
 
 .topbar-actions {
@@ -409,6 +420,48 @@ h2 {
 /* === Layout general === */
 .app-shell {
   padding: 28px 0 56px;
+}
+
+/* === Footer === */
+.app-footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.footer-inner {
+  width: min(1120px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.footer-inner p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.footer-links a:hover {
+  color: var(--red);
+  text-decoration: underline;
 }
 
 .wiki-intro {
@@ -722,6 +775,11 @@ h2 {
   border-left: 5px solid var(--red);
 }
 
+.room-header h1,
+.wiki-title h1 {
+  text-wrap: balance;
+}
+
 .room-header small {
   display: inline-block;
   margin-top: 10px;
@@ -807,6 +865,7 @@ h2 {
   position: relative;
   overflow: hidden;
   width: 100%;
+  isolation: isolate;
 }
 
 .vehicle-link {
@@ -1004,6 +1063,11 @@ h2 {
   background: var(--surface-soft);
   border: 1px solid var(--line);
   border-radius: 8px;
+}
+
+.wiki-block h2,
+.wiki-block h3 {
+  text-wrap: balance;
 }
 
 .main-story {
