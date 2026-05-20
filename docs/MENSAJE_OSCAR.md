@@ -26,11 +26,13 @@ Las tareas 3, 4, 5 son exactamente esos detalles:
 
 Mire que está diseñando la CNC para la empresa, ¿verdad? Le voy a dar un consejo que aplica a código y a máquinas: **NO olvide poner las tres patas.**
 
-Vea que si la CNC solo tiene dos "faldas" (estructuras de soporte), se le va a voltear. No va a tener estadía. Se va a caer. Y ahí sí que la cagó.
+Vea que si la CNC solo tiene dos patas, **se le va a voltear.** No va a tener estabilidad. Va a ser un desastre. Y ahí sí que la cagó.
 
-Eso es exactamente lo que pasó con Gelvez cuando quiso hacer todo en Java: **faltaban las patas correctas.** JavaScript era la tercera pata que necesitaba. Sin eso, todo se volcaba.
+¿Sabe qué pasó con Gelvez? Lo mismo. Quiso hacerlo con Java en el navegador. Dos patas en vez de tres. ¿Resultado? Se le volcó. Java en el navegador no es estable, no funciona. Faltaba la tercera pata: JavaScript.
 
-Lo mismo aplica acá: **las tareas 3, 4, 5 son las tres patas de una aplicación profesional.** Filtrado, ordenamiento, persistencia. Sin las tres, se voltea. El usuario no vuelve. La empresa no crece.
+Lo mismo aplica acá: **las tareas 3, 4, 5 son las tres patas de una aplicación profesional.** Filtrado, ordenamiento, persistencia. Con las tres, es estable. Sin las tres, **se voltea.** El usuario no vuelve. La empresa no crece.
+
+Así que: **no cometa el error de Gelvez. Pongale las tres patas a la CNC. Haga las tres tareas. Con estabilidad.**
 
 ---
 
