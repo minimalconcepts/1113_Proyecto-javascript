@@ -856,6 +856,37 @@ h2 {
   color: white;
 }
 
+.search-container {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  outline: none;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.search-counter {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
 /* === Tarjetas de vehiculos === */
 .vehicle-section {
   padding-top: 6px;

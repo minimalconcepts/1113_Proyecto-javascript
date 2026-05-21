@@ -8,6 +8,7 @@ const THEME_KEY = "carDealerMuseumTheme";
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
+let terminoBusqueda = "";
 // Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
 const EASTER_EGG_CARDS = [
   {
@@ -336,6 +337,7 @@ function renderRouteCard(route) {
 
 function renderRoom(route) {
   const relatedRoutes = getRoutesByArea(route.area);
+  const filteredItems = filterRoomItems(route.items);
 
   app.innerHTML = `
     <section class="room-header ${route.area.toLowerCase()}">
@@ -362,10 +364,27 @@ function renderRoom(route) {
       ${
         route.items.length === 0
           ? `<p class="empty-state">Todavia no hay elementos registrados. Agrega imagenes en <strong>${route.folder}</strong> y despues crea una tarjeta en <strong>assets/js/data.js</strong>.</p>`
-          : `<div class="vehicle-grid">${route.items.map((item) => renderVehicleCard(item)).join("")}</div>`
+          : `
+            <div class="search-container">
+              <input
+                type="text"
+                id="busqueda"
+                placeholder="Buscar por nombre, marca o modelo..."
+                class="search-input"
+                value="${escapeHtml(terminoBusqueda)}"
+                autocomplete="off"
+              />
+              <p class="search-counter" id="contador-busqueda">${getSearchCounterText(filteredItems.length, route.items.length)}</p>
+            </div>
+            <div id="vehicle-results">
+              ${renderVehicleResults(filteredItems)}
+            </div>
+          `
       }
     </section>
   `;
+
+  setupRoomSearch(route);
 }
 
 function renderVehicleCard(item) {
@@ -393,6 +412,89 @@ function renderVehicleCard(item) {
       </a>
     </article>
   `;
+}
+
+function setupRoomSearch(route) {
+  const searchInput = document.getElementById("busqueda");
+
+  if (!searchInput) {
+    return;
+  }
+
+  searchInput.addEventListener("input", (event) => {
+    terminoBusqueda = event.target.value;
+    const filteredItems = filterRoomItems(route.items);
+    const results = document.getElementById("vehicle-results");
+    const counter = document.getElementById("contador-busqueda");
+
+    if (results) {
+      results.innerHTML = renderVehicleResults(filteredItems);
+    }
+
+    if (counter) {
+      counter.textContent = getSearchCounterText(filteredItems.length, route.items.length);
+    }
+  });
+}
+
+function filterRoomItems(items) {
+  const searchTerm = terminoBusqueda.trim().toLowerCase();
+
+  if (!searchTerm) {
+    return items;
+  }
+
+  return items.filter((item) => getSearchableVehicleText(item).includes(searchTerm));
+}
+
+function getSearchableVehicleText(item) {
+  return [
+    item.name,
+    item.type,
+    item.detail,
+    item.year,
+    item.status,
+    item.category,
+    item.collaboration,
+    item.history,
+    item.learning,
+    item.specs
+  ]
+    .map(stringifySearchValue)
+    .join(" ")
+    .toLowerCase();
+}
+
+function stringifySearchValue(value) {
+  if (!value) {
+    return "";
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(stringifySearchValue).join(" ");
+  }
+
+  if (typeof value === "object") {
+    return Object.values(value).map(stringifySearchValue).join(" ");
+  }
+
+  return String(value);
+}
+
+function renderVehicleResults(items) {
+  if (items.length === 0) {
+    return `<p class="empty-state">No hay resultados para esa busqueda. Prueba con otro nombre, marca o modelo.</p>`;
+  }
+
+  return `<div class="vehicle-grid">${items.map((item) => renderVehicleCard(item)).join("")}</div>`;
+}
+
+function getSearchCounterText(filteredCount, totalCount) {
+  if (!terminoBusqueda.trim()) {
+    return `${totalCount} piezas disponibles`;
+  }
+
+  return `${filteredCount} de ${totalCount} resultados`;
 }
 
 function renderWikiDetail(path) {
@@ -848,6 +950,14 @@ function createSlug(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function renderNotFound(path) {
