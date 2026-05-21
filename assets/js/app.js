@@ -9,6 +9,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
 let terminoBusqueda = "";
+let ordenamientoActual = "defecto";
 // Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
 const EASTER_EGG_CARDS = [
   {
@@ -337,7 +338,7 @@ function renderRouteCard(route) {
 
 function renderRoom(route) {
   const relatedRoutes = getRoutesByArea(route.area);
-  const filteredItems = filterRoomItems(route.items);
+  const filteredItems = ordenarVehiculos(filterRoomItems(route.items));
 
   app.innerHTML = `
     <section class="room-header ${route.area.toLowerCase()}">
@@ -375,6 +376,18 @@ function renderRoom(route) {
                 autocomplete="off"
               />
               <p class="search-counter" id="contador-busqueda">${getSearchCounterText(filteredItems.length, route.items.length)}</p>
+            </div>
+            <div class="ordenamiento-container">
+              <label for="ordenamiento">Ordenar por:</label>
+              <select id="ordenamiento" onchange="aplicarOrdenamiento()">
+                <option value="defecto">Orden por defecto</option>
+                <option value="precio-asc">Precio: Menor a Mayor</option>
+                <option value="precio-desc">Precio: Mayor a Menor</option>
+                <option value="anio-desc">Año: Más reciente</option>
+                <option value="anio-asc">Año: Más antiguo</option>
+                <option value="potencia-desc">Potencia: Mayor</option>
+                <option value="velocidad-desc">Velocidad máxima: Mayor</option>
+              </select>
             </div>
             <div id="vehicle-results">
               ${renderVehicleResults(filteredItems)}
@@ -416,14 +429,19 @@ function renderVehicleCard(item) {
 
 function setupRoomSearch(route) {
   const searchInput = document.getElementById("busqueda");
+  const orderSelect = document.getElementById("ordenamiento");
 
   if (!searchInput) {
     return;
   }
 
+  if (orderSelect) {
+    orderSelect.value = ordenamientoActual;
+  }
+
   searchInput.addEventListener("input", (event) => {
     terminoBusqueda = event.target.value;
-    const filteredItems = filterRoomItems(route.items);
+    const filteredItems = ordenarVehiculos(filterRoomItems(route.items));
     const results = document.getElementById("vehicle-results");
     const counter = document.getElementById("contador-busqueda");
 
@@ -435,6 +453,92 @@ function setupRoomSearch(route) {
       counter.textContent = getSearchCounterText(filteredItems.length, route.items.length);
     }
   });
+}
+
+function aplicarOrdenamiento() {
+  const orderSelect = document.getElementById("ordenamiento");
+  const path = window.AppRouter.getCurrentPath();
+  const route = window.MUSEUM_DATA.routes[path];
+
+  if (!orderSelect || !route) {
+    return;
+  }
+
+  ordenamientoActual = orderSelect.value;
+  const filteredItems = ordenarVehiculos(filterRoomItems(route.items));
+  const results = document.getElementById("vehicle-results");
+  const counter = document.getElementById("contador-busqueda");
+
+  if (results) {
+    results.innerHTML = renderVehicleResults(filteredItems);
+  }
+
+  if (counter) {
+    counter.textContent = getSearchCounterText(filteredItems.length, route.items.length);
+  }
+}
+
+function ordenarVehiculos(lista) {
+  const copia = [...lista];
+
+  switch (ordenamientoActual) {
+    case "precio-asc":
+      copia.sort((a, b) => obtenerPrecioVehiculo(a) - obtenerPrecioVehiculo(b));
+      break;
+
+    case "precio-desc":
+      copia.sort((a, b) => obtenerPrecioVehiculo(b) - obtenerPrecioVehiculo(a));
+      break;
+
+    case "anio-desc":
+      copia.sort((a, b) => obtenerAnioVehiculo(b) - obtenerAnioVehiculo(a));
+      break;
+
+    case "anio-asc":
+      copia.sort((a, b) => obtenerAnioVehiculo(a) - obtenerAnioVehiculo(b));
+      break;
+
+    case "potencia-desc":
+      copia.sort((a, b) => extraerNumero(b.specs?.power) - extraerNumero(a.specs?.power));
+      break;
+
+    case "velocidad-desc":
+      copia.sort((a, b) => extraerNumero(b.specs?.topSpeed) - extraerNumero(a.specs?.topSpeed));
+      break;
+
+    case "defecto":
+    default:
+      break;
+  }
+
+  return copia;
+}
+
+function obtenerPrecioVehiculo(item) {
+  return extraerNumero(item.precio || item.price || item.detail);
+}
+
+function obtenerAnioVehiculo(item) {
+  return extraerNumero(item.anio || item.year);
+}
+
+function extraerNumero(value) {
+  if (!value) {
+    return 0;
+  }
+
+  const match = String(value).match(/\d+(?:[.,]\d+)*/);
+
+  if (!match) {
+    return 0;
+  }
+
+  const rawNumber = match[0];
+  const normalizedNumber = /^\d+[.,]\d{1,2}$/.test(rawNumber)
+    ? rawNumber.replace(",", ".")
+    : rawNumber.replace(/[.,]/g, "");
+
+  return Number(normalizedNumber) || 0;
 }
 
 function filterRoomItems(items) {
@@ -983,5 +1087,6 @@ window.toggleFavorite = toggleFavorite;
 window.renderRandomizer = renderRandomizer;
 window.renderComparison = renderComparison;
 window.showEasterEggContent = showEasterEggContent;
+window.aplicarOrdenamiento = aplicarOrdenamiento;
 window.AppRouter.onChange(handleRouteChange);
 renderApp();

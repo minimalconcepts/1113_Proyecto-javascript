@@ -887,6 +887,38 @@ h2 {
   font-weight: 800;
 }
 
+.ordenamiento-container {
+  margin: 15px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ordenamiento-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.ordenamiento-container select {
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+  transition: 0.3s;
+}
+
+.ordenamiento-container select:hover {
+  border-color: #007bff;
+}
+
+.ordenamiento-container select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
 /* === Tarjetas de vehiculos === */
 .vehicle-section {
   padding-top: 6px;
