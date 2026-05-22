@@ -10,7 +10,9 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
 let terminoBusqueda = "";
-let ordenamientoActual = "defecto";
+let terminoBusquedaGlobal = "";
+let ordenamientoActual = localStorage.getItem(ORDER_KEY) || "defecto";
+let soloFavoritos = false;
 // Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
 const EASTER_EGG_CARDS = [
   {
@@ -360,28 +362,6 @@ function renderHome() {
       </div>
     </section>
 
-    <section class="global-search-panel" aria-labelledby="global-search-title">
-      <div class="section-heading compact">
-        <p class="eyebrow">Buscador global</p>
-        <h2 id="global-search-title">Encuentra cualquier pieza del museo</h2>
-      </div>
-      <div class="search-container">
-        <input
-          type="search"
-          id="busqueda-global"
-          placeholder="Buscar en autos, motos y aviones..."
-          class="search-input"
-          value="${escapeHtml(terminoBusquedaGlobal)}"
-          aria-label="Buscar en todo el museo"
-          autocomplete="off"
-        />
-        <p class="search-counter" id="contador-busqueda-global">${getGlobalSearchCounterText()}</p>
-      </div>
-      <div id="global-search-results">
-        ${renderGlobalSearchResults()}
-      </div>
-    </section>
-
     <section class="home-dashboard">
       <aside class="tool-section">
         <div class="section-heading compact">
@@ -552,32 +532,6 @@ function setupRoomSearch(route) {
     terminoBusqueda = event.target.value;
     updateRoomResults(route);
   });
-}
-
-function setupGlobalSearch() {
-  const searchInput = document.getElementById("busqueda-global");
-
-  if (!searchInput) {
-    return;
-  }
-
-  searchInput.addEventListener("input", (event) => {
-    terminoBusquedaGlobal = event.target.value;
-    updateGlobalSearchResults();
-  });
-}
-
-function updateGlobalSearchResults() {
-  const results = document.getElementById("global-search-results");
-  const counter = document.getElementById("contador-busqueda-global");
-
-  if (results) {
-    results.innerHTML = renderGlobalSearchResults();
-  }
-
-  if (counter) {
-    counter.textContent = getGlobalSearchCounterText();
-  }
 }
 
 function setupGlobalSearch() {
