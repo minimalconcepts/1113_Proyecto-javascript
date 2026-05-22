@@ -10,9 +10,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
 let terminoBusqueda = "";
-let terminoBusquedaGlobal = "";
-let ordenamientoActual = localStorage.getItem(ORDER_KEY) || "defecto";
-let soloFavoritos = false;
+let ordenamientoActual = "defecto";
 // Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
 const EASTER_EGG_CARDS = [
   {
@@ -255,14 +253,92 @@ function renderHome() {
   const stats = getMuseumStats();
   const recommended = getRandomEntry();
 
+  const query = terminoBusquedaGlobal.trim().toLowerCase();
+  let searchResultsHtml = "";
+
+  if (query) {
+    // Filtro general de piezas
+    const filteredItems = getAllItems().filter((entry) =>
+      getSearchableVehicleText(entry.item).includes(query)
+    );
+
+    // Filtro general de pilotos
+    const filteredPilots = (window.MUSEUM_DATA.pilots || []).filter((pilot) =>
+      [pilot.name, pilot.description, pilot.area, pilot.highlight]
+        .map(String)
+        .join(" ")
+        .toLowerCase()
+        .includes(query)
+    );
+
+    // Filtro general de fundadores
+    const filteredFounders = (window.MUSEUM_DATA.founders || []).filter((founder) =>
+      [founder.name, founder.description, founder.brand, founder.area]
+        .map(String)
+        .join(" ")
+        .toLowerCase()
+        .includes(query)
+    );
+
+    const totalResults = filteredItems.length + filteredPilots.length + filteredFounders.length;
+
+    searchResultsHtml = `
+      <section class="global-search-results" style="margin: 2rem 0;">
+        <div class="section-heading">
+          <p class="eyebrow">Resultados de la búsqueda global</p>
+          <h2>${totalResults} ${totalResults === 1 ? "coincidencia encontrada" : "coincidencias encontradas"} para "${escapeHtml(terminoBusquedaGlobal)}"</h2>
+        </div>
+        
+        ${filteredItems.length > 0 ? `
+          <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.3rem; border-bottom: 2px solid var(--accent-color, #cd1a1a); display: inline-block; padding-bottom: 0.2rem;">Piezas encontradas</h3>
+          <div class="vehicle-grid">
+            ${filteredItems.map((entry) => renderVehicleCard(entry.item)).join("")}
+          </div>
+        ` : ""}
+
+        ${filteredPilots.length > 0 ? `
+          <h3 style="margin: 2.5rem 0 1rem 0; font-size: 1.3rem; border-bottom: 2px solid var(--accent-color, #cd1a1a); display: inline-block; padding-bottom: 0.2rem;">Pilotos encontrados</h3>
+          <div class="pilot-grid">
+            ${filteredPilots.map(renderPilotCard).join("")}
+          </div>
+        ` : ""}
+
+        ${filteredFounders.length > 0 ? `
+          <h3 style="margin: 2.5rem 0 1rem 0; font-size: 1.3rem; border-bottom: 2px solid var(--accent-color, #cd1a1a); display: inline-block; padding-bottom: 0.2rem;">Creadores de marcas</h3>
+          <div class="founder-grid">
+            ${filteredFounders.map(renderFounderCard).join("")}
+          </div>
+        ` : ""}
+
+        ${totalResults === 0 ? `
+          <p class="empty-state">No se encontraron resultados en ninguna sección para esa búsqueda.</p>
+        ` : ""}
+        <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 3rem 0 2rem 0;" />
+      </section>
+    `;
+  }
+
   app.innerHTML = `
     <section class="wiki-intro">
       <div class="wiki-intro-content">
         <p class="eyebrow">Bienvenido a la wiki</p>
         <h1>Museo digital de autos, motos y aviones.</h1>
         <p>Explora maquinas legendarias por categorias, guarda tus favoritas y abre cada ficha como una pagina tipo Wikipedia para estudiar su historia.</p>
+        
+        <div class="search-container" style="margin-top: 1.5rem; max-width: 500px;">
+          <input
+            type="text"
+            id="busqueda-global"
+            placeholder="Buscar piezas, pilotos o creadores en todo el museo..."
+            class="search-input"
+            value="${escapeHtml(terminoBusquedaGlobal)}"
+            autocomplete="off"
+          />
+        </div>
       </div>
     </section>
+
+    ${searchResultsHtml}
 
     <section class="home-summary">
       <div class="overview-copy">
@@ -502,6 +578,25 @@ function updateGlobalSearchResults() {
   if (counter) {
     counter.textContent = getGlobalSearchCounterText();
   }
+}
+
+function setupGlobalSearch() {
+  const searchInput = document.getElementById("busqueda-global");
+  if (!searchInput) {
+    return;
+  }
+
+  searchInput.addEventListener("input", (event) => {
+    terminoBusquedaGlobal = event.target.value;
+    renderHome();
+    
+    // Mantiene el foco estable en la barra global mientras escribes
+    const input = document.getElementById("busqueda-global");
+    if (input) {
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  });
 }
 
 function aplicarOrdenamiento() {
@@ -891,7 +986,7 @@ function renderComparison(currentSlug, relatedSlug) {
   const relatedEntry = findItemBySlug(relatedSlug);
   const result = document.getElementById("comparison-result");
 
-  if (!currentEntry || !relatedEntry || !result) {
+  if (!currentEntry || !relatedEntry || result === null) {
     return;
   }
 
