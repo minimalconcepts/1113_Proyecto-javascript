@@ -18,6 +18,10 @@
 }
 
 @media (max-width: 760px) {
+  .app-header {
+    position: static;
+  }
+
   .wiki-intro,
   .home-summary,
   .home-dashboard {
@@ -108,6 +112,11 @@
     padding: 18px 0;
   }
 
+  .global-search-panel {
+    margin-bottom: 20px;
+    padding: 16px;
+  }
+
   .overview-copy,
   .room-header,
   .wiki-entry,
@@ -139,7 +148,8 @@
   .pilot-grid,
   .founder-grid,
   .quick-actions,
-  .tool-grid {
+  .tool-grid,
+  .global-results-grid {
     grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
   }
 
@@ -250,6 +260,11 @@
     justify-content: center;
   }
 
+  .favorite-filter {
+    width: 100%;
+    justify-content: center;
+  }
+
   .favorite-button {
     top: 10px;
     right: 10px;
@@ -271,6 +286,10 @@
     font-size: 0.9rem;
   }
 
+  .intro-progress {
+    bottom: 64px;
+  }
+
   .footer-links {
     gap: 10px 12px;
   }
@@ -283,7 +302,8 @@
 @media (max-width: 380px) {
   .route-grid,
   .quick-actions,
-  .tool-grid {
+  .tool-grid,
+  .global-results-grid {
     grid-template-columns: 1fr;
   }
 

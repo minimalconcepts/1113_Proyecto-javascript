@@ -5,11 +5,14 @@
 const app = document.getElementById("app");
 const FAVORITES_KEY = "carDealerMuseumFavorites";
 const THEME_KEY = "carDealerMuseumTheme";
+const ORDER_KEY = "carDealerMuseumOrder";
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.getElementById("main-menu");
 const themeToggle = document.querySelector(".theme-toggle");
 let terminoBusqueda = "";
-let ordenamientoActual = "defecto";
+let terminoBusquedaGlobal = "";
+let ordenamientoActual = localStorage.getItem(ORDER_KEY) || "defecto";
+let soloFavoritos = false;
 // Cambia image por la ruta final de cada afiche dentro de assets/images/easter-egg.
 const EASTER_EGG_CARDS = [
   {
@@ -281,6 +284,28 @@ function renderHome() {
       </div>
     </section>
 
+    <section class="global-search-panel" aria-labelledby="global-search-title">
+      <div class="section-heading compact">
+        <p class="eyebrow">Buscador global</p>
+        <h2 id="global-search-title">Encuentra cualquier pieza del museo</h2>
+      </div>
+      <div class="search-container">
+        <input
+          type="search"
+          id="busqueda-global"
+          placeholder="Buscar en autos, motos y aviones..."
+          class="search-input"
+          value="${escapeHtml(terminoBusquedaGlobal)}"
+          aria-label="Buscar en todo el museo"
+          autocomplete="off"
+        />
+        <p class="search-counter" id="contador-busqueda-global">${getGlobalSearchCounterText()}</p>
+      </div>
+      <div id="global-search-results">
+        ${renderGlobalSearchResults()}
+      </div>
+    </section>
+
     <section class="home-dashboard">
       <aside class="tool-section">
         <div class="section-heading compact">
@@ -304,6 +329,8 @@ function renderHome() {
       </section>
     </section>
   `;
+
+  setupGlobalSearch();
 }
 
 function renderSection(section) {
@@ -368,11 +395,12 @@ function renderRoom(route) {
           : `
             <div class="search-container">
               <input
-                type="text"
+                type="search"
                 id="busqueda"
                 placeholder="Buscar por nombre, marca o modelo..."
                 class="search-input"
                 value="${escapeHtml(terminoBusqueda)}"
+                aria-label="Buscar piezas en esta sala"
                 autocomplete="off"
               />
               <p class="search-counter" id="contador-busqueda">${getSearchCounterText(filteredItems.length, route.items.length)}</p>
@@ -389,6 +417,11 @@ function renderRoom(route) {
                 <option value="velocidad-desc">Velocidad máxima: Mayor</option>
               </select>
             </div>
+            <button id="btn-solo-favoritos" class="favorite-filter ${soloFavoritos ? "is-active" : ""}" type="button" aria-pressed="${soloFavoritos}" onclick="toggleSoloFavoritos()">
+              <span aria-hidden="true">${soloFavoritos ? "&#9829;" : "&#9825;"}</span>
+              Solo favoritos
+              <strong>${getFavorites().length}</strong>
+            </button>
             <div id="vehicle-results">
               ${renderVehicleResults(filteredItems)}
             </div>
@@ -406,20 +439,20 @@ function renderVehicleCard(item) {
 
   return `
     <article class="vehicle-card">
-      <button class="favorite-button ${favorite ? "is-active" : ""}" type="button" onclick="toggleFavorite('${slug}')" aria-label="Agregar o quitar favorito">
-        ${favorite ? "Favorito" : "Favorito"}
+      <button class="favorite-button ${favorite ? "is-active" : ""}" type="button" onclick="toggleFavorite('${slug}')" aria-label="${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}">
+        <span aria-hidden="true">${favorite ? "&#9829;" : "&#9825;"}</span>
       </button>
       <a class="vehicle-link" href="#/wiki/${slug}" aria-label="Abrir historia de ${item.name}">
         <div class="image-frame">
           <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" onerror="this.remove(); this.parentElement.classList.add('missing-image'); this.parentElement.innerHTML='Imagen pendiente';" />
         </div>
         <div class="vehicle-info">
-          <h3>${item.name}</h3>
+          <h3>${highlightSearchMatch(item.name)}</h3>
           <div class="vehicle-meta">
-            <span>${item.type || "Tipo pendiente"}</span>
-            <span>${item.year || "Anio pendiente"}</span>
+            <span>${highlightSearchMatch(item.type || "Tipo pendiente")}</span>
+            <span>${highlightSearchMatch(item.year || "Anio pendiente")}</span>
           </div>
-          <p><strong>Detalle:</strong> ${item.detail || "Pendiente por investigar"}</p>
+          <p><strong>Detalle:</strong> ${highlightSearchMatch(item.detail || "Pendiente por investigar")}</p>
           <span class="card-action">Abrir ficha</span>
         </div>
       </a>
@@ -441,18 +474,34 @@ function setupRoomSearch(route) {
 
   searchInput.addEventListener("input", (event) => {
     terminoBusqueda = event.target.value;
-    const filteredItems = ordenarVehiculos(filterRoomItems(route.items));
-    const results = document.getElementById("vehicle-results");
-    const counter = document.getElementById("contador-busqueda");
-
-    if (results) {
-      results.innerHTML = renderVehicleResults(filteredItems);
-    }
-
-    if (counter) {
-      counter.textContent = getSearchCounterText(filteredItems.length, route.items.length);
-    }
+    updateRoomResults(route);
   });
+}
+
+function setupGlobalSearch() {
+  const searchInput = document.getElementById("busqueda-global");
+
+  if (!searchInput) {
+    return;
+  }
+
+  searchInput.addEventListener("input", (event) => {
+    terminoBusquedaGlobal = event.target.value;
+    updateGlobalSearchResults();
+  });
+}
+
+function updateGlobalSearchResults() {
+  const results = document.getElementById("global-search-results");
+  const counter = document.getElementById("contador-busqueda-global");
+
+  if (results) {
+    results.innerHTML = renderGlobalSearchResults();
+  }
+
+  if (counter) {
+    counter.textContent = getGlobalSearchCounterText();
+  }
 }
 
 function aplicarOrdenamiento() {
@@ -465,9 +514,27 @@ function aplicarOrdenamiento() {
   }
 
   ordenamientoActual = orderSelect.value;
+  localStorage.setItem(ORDER_KEY, ordenamientoActual);
+  updateRoomResults(route);
+}
+
+function toggleSoloFavoritos() {
+  const path = window.AppRouter.getCurrentPath();
+  const route = window.MUSEUM_DATA.routes[path];
+
+  if (!route) {
+    return;
+  }
+
+  soloFavoritos = !soloFavoritos;
+  updateRoomResults(route);
+}
+
+function updateRoomResults(route) {
   const filteredItems = ordenarVehiculos(filterRoomItems(route.items));
   const results = document.getElementById("vehicle-results");
   const counter = document.getElementById("contador-busqueda");
+  const favoriteFilter = document.getElementById("btn-solo-favoritos");
 
   if (results) {
     results.innerHTML = renderVehicleResults(filteredItems);
@@ -475,6 +542,16 @@ function aplicarOrdenamiento() {
 
   if (counter) {
     counter.textContent = getSearchCounterText(filteredItems.length, route.items.length);
+  }
+
+  if (favoriteFilter) {
+    favoriteFilter.classList.toggle("is-active", soloFavoritos);
+    favoriteFilter.setAttribute("aria-pressed", String(soloFavoritos));
+    favoriteFilter.innerHTML = `
+      <span aria-hidden="true">${soloFavoritos ? "&#9829;" : "&#9825;"}</span>
+      Solo favoritos
+      <strong>${getFavorites().length}</strong>
+    `;
   }
 }
 
@@ -543,12 +620,15 @@ function extraerNumero(value) {
 
 function filterRoomItems(items) {
   const searchTerm = terminoBusqueda.trim().toLowerCase();
+  const favoriteFilteredItems = soloFavoritos
+    ? items.filter((item) => isFavorite(createSlug(item.name)))
+    : items;
 
   if (!searchTerm) {
-    return items;
+    return favoriteFilteredItems;
   }
 
-  return items.filter((item) => getSearchableVehicleText(item).includes(searchTerm));
+  return favoriteFilteredItems.filter((item) => getSearchableVehicleText(item).includes(searchTerm));
 }
 
 function getSearchableVehicleText(item) {
@@ -585,8 +665,95 @@ function stringifySearchValue(value) {
   return String(value);
 }
 
+function highlightSearchMatch(value, customSearchTerm = terminoBusqueda) {
+  const text = String(value || "");
+  const searchTerm = customSearchTerm.trim();
+
+  if (!searchTerm) {
+    return escapeHtml(text);
+  }
+
+  const pattern = new RegExp(`(${escapeRegExp(searchTerm)})`, "gi");
+  return escapeHtml(text).replace(pattern, "<mark>$1</mark>");
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getGlobalSearchResults() {
+  const searchTerm = terminoBusquedaGlobal.trim().toLowerCase();
+
+  if (!searchTerm) {
+    return [];
+  }
+
+  return getAllItems().filter((entry) => getGlobalSearchableText(entry).includes(searchTerm));
+}
+
+function getGlobalSearchableText(entry) {
+  return [
+    getSearchableVehicleText(entry.item),
+    entry.route.area,
+    entry.route.title,
+    entry.route.description
+  ]
+    .map(stringifySearchValue)
+    .join(" ")
+    .toLowerCase();
+}
+
+function renderGlobalSearchResults() {
+  const searchTerm = terminoBusquedaGlobal.trim();
+
+  if (!searchTerm) {
+    return `<p class="empty-state compact">Escribe un nombre, marca, modelo o categoria para buscar en todo el museo.</p>`;
+  }
+
+  const results = getGlobalSearchResults();
+
+  if (results.length === 0) {
+    return `<p class="empty-state compact">No encontramos piezas con ese texto. Prueba con otra palabra.</p>`;
+  }
+
+  return `
+    <div class="global-results-grid">
+      ${results.slice(0, 8).map(renderGlobalSearchCard).join("")}
+    </div>
+  `;
+}
+
+function renderGlobalSearchCard(entry) {
+  return `
+    <a class="global-result-card" href="#/wiki/${entry.slug}">
+      <span>${entry.route.area}</span>
+      <strong>${highlightGlobalSearchMatch(entry.item.name)}</strong>
+      <small>${highlightGlobalSearchMatch(entry.route.title)}</small>
+    </a>
+  `;
+}
+
+function highlightGlobalSearchMatch(value) {
+  return highlightSearchMatch(value, terminoBusquedaGlobal);
+}
+
+function getGlobalSearchCounterText() {
+  const searchTerm = terminoBusquedaGlobal.trim();
+
+  if (!searchTerm) {
+    return `${getAllItems().length} piezas disponibles en todo el museo`;
+  }
+
+  const count = getGlobalSearchResults().length;
+  return `${count} resultado${count === 1 ? "" : "s"} global${count === 1 ? "" : "es"}`;
+}
+
 function renderVehicleResults(items) {
   if (items.length === 0) {
+    if (soloFavoritos) {
+      return `<p class="empty-state">No hay favoritos con esos filtros. Marca piezas con el corazon o limpia la busqueda.</p>`;
+    }
+
     return `<p class="empty-state">No hay resultados para esa busqueda. Prueba con otro nombre, marca o modelo.</p>`;
   }
 
@@ -594,8 +761,14 @@ function renderVehicleResults(items) {
 }
 
 function getSearchCounterText(filteredCount, totalCount) {
-  if (!terminoBusqueda.trim()) {
+  const hasSearch = Boolean(terminoBusqueda.trim());
+
+  if (!hasSearch && !soloFavoritos) {
     return `${totalCount} piezas disponibles`;
+  }
+
+  if (soloFavoritos && !hasSearch) {
+    return `${filteredCount} favoritos de ${totalCount} piezas`;
   }
 
   return `${filteredCount} de ${totalCount} resultados`;
@@ -624,6 +797,7 @@ function renderWikiDetail(path) {
       <div class="detail-actions">
         <a class="back-link dark" href="#${roomPath}">Regresar a ${route.title}</a>
         <button class="favorite-button detail ${favorite ? "is-active" : ""}" type="button" onclick="toggleFavorite('${slug}')">
+          <span aria-hidden="true">${favorite ? "&#9829;" : "&#9825;"}</span>
           ${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}
         </button>
       </div>
@@ -785,12 +959,12 @@ function renderFavorites() {
       <a class="back-link" href="#/">Regresar</a>
       <p class="eyebrow">Coleccion personal</p>
       <h1>Favoritos</h1>
-      <p>Aqui aparecen las piezas que marcaste para estudiar despues.</p>
+      <p>Aqui aparecen las piezas que marcaste para estudiar despues. Tienes ${favoriteItems.length} favorito${favoriteItems.length === 1 ? "" : "s"} guardado${favoriteItems.length === 1 ? "" : "s"}.</p>
     </section>
 
     ${
       favoriteItems.length === 0
-        ? `<p class="empty-state">Todavia no tienes favoritos. Entra a una sala y presiona el boton Favorito en una tarjeta.</p>`
+        ? `<p class="empty-state">Todavia no tienes favoritos. Entra a una sala y presiona el corazon de una tarjeta.</p>`
         : `<div class="vehicle-grid">${favoriteItems.map((entry) => renderVehicleCard(entry.item)).join("")}</div>`
     }
   `;
@@ -1021,7 +1195,12 @@ function getRandomEntry() {
 }
 
 function getFavorites() {
-  return JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+  try {
+    const savedFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return Array.isArray(savedFavorites) ? savedFavorites : [];
+  } catch (error) {
+    return [];
+  }
 }
 
 function saveFavorites(favorites) {
@@ -1088,5 +1267,6 @@ window.renderRandomizer = renderRandomizer;
 window.renderComparison = renderComparison;
 window.showEasterEggContent = showEasterEggContent;
 window.aplicarOrdenamiento = aplicarOrdenamiento;
+window.toggleSoloFavoritos = toggleSoloFavoritos;
 window.AppRouter.onChange(handleRouteChange);
 renderApp();
